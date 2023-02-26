@@ -50,22 +50,18 @@ export async function getServerSideProps({
     refresh_token: string;
   } = await response.json();
 
-  res.setHeader(
-    "Set-Cookie",
+  res.setHeader("Set-Cookie", [
     [
       `SP_AT=${access_token}`,
       "HttpOnly",
       "Secure",
       `Max-Age=${expires_in}`,
       "SameSite=Strict",
-    ].join("; ")
-  );
-  res.setHeader(
-    "Set-Cookie",
+    ].join("; "),
     [`SP_RT=${refresh_token}`, "HttpOnly", "Secure", "SameSite=Strict"].join(
       "; "
-    )
-  );
+    ),
+  ]);
 
   return {
     redirect: {
