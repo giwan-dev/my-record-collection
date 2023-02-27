@@ -1,4 +1,5 @@
 import { fetchMe, SpotifyUser } from "@/services/spotify";
+
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

@@ -1,4 +1,5 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "@/common/env";
+
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 
 export default function HandleSpotifyLoginPage() {
@@ -38,17 +39,14 @@ export async function getServerSideProps({
     throw new Error(`FetchError - ${response.status}`);
   }
 
-  const {
-    access_token,
-    refresh_token,
-    expires_in,
-  }: {
-    access_token: string;
-    token_type: string;
-    scope: string;
-    expires_in: number;
-    refresh_token: string;
-  } = await response.json();
+  const { access_token, refresh_token, expires_in } =
+    (await response.json()) as {
+      access_token: string;
+      token_type: string;
+      scope: string;
+      expires_in: number;
+      refresh_token: string;
+    };
 
   res.setHeader("Set-Cookie", [
     [

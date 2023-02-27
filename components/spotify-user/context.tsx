@@ -1,6 +1,7 @@
 import type { SpotifyUser } from "@/services/spotify";
-import type { PropsWithChildren } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
+
+import type { PropsWithChildren } from "react";
 
 const UserContext = createContext<SpotifyUser | undefined | null>(null);
 
@@ -13,7 +14,7 @@ export function useSpotifyUser() {
   return context;
 }
 
-export function SpotifyUserProvider({ children }: PropsWithChildren<unknown>) {
+export function SpotifyUserProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<SpotifyUser>();
 
   useEffect(() => {
@@ -21,13 +22,13 @@ export function SpotifyUserProvider({ children }: PropsWithChildren<unknown>) {
       const response = await fetch("/api/me");
 
       if (response.ok) {
-        const user = await response.json();
+        const user = (await response.json()) as SpotifyUser;
         setUser(user);
       }
     }
 
     if (user === undefined) {
-      fetchUser();
+      void fetchUser();
     }
   }, [user]);
 

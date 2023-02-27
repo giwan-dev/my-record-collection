@@ -1,11 +1,12 @@
 import { SPOTIFY_CLIENT_ID } from "@/common/env";
+
 import type { GetServerSidePropsResult } from "next";
 
 export default function LoginPage() {
   return null;
 }
 
-export async function getServerSideProps(): Promise<
+export function getServerSideProps(): Promise<
   GetServerSidePropsResult<unknown>
 > {
   const url = new URL("https://accounts.spotify.com/authorize");
@@ -18,5 +19,7 @@ export async function getServerSideProps(): Promise<
     "http://localhost:3000/handle-spotify-login"
   );
 
-  return { redirect: { destination: url.toString(), permanent: true } };
+  return Promise.resolve({
+    redirect: { destination: url.toString(), permanent: true },
+  });
 }
