@@ -4,5 +4,11 @@
     "plugin:import/recommended",
     "next/core-web-vitals",
     "prettier"
-  ]
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": true,
+      "node": true
+    }
+  }
 }
