@@ -1050,7 +1050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.31.7":
+"eslint-plugin-react@npm:^7.31.7, eslint-plugin-react@npm:^7.32.2":
   version: 7.32.2
   resolution: "eslint-plugin-react@npm:7.32.2"
   dependencies:
@@ -2163,6 +2163,7 @@ __metadata:
     eslint-config-prettier: ^8.6.0
     eslint-import-resolver-typescript: ^3.5.3
     eslint-plugin-import: ^2.27.5
+    eslint-plugin-react: ^7.32.2
     husky: ^8.0.3
     lint-staged: ^13.1.2
     next: 13.2.1
