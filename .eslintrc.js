@@ -7,6 +7,26 @@ module.exports = {
     "next/core-web-vitals",
     "prettier",
   ],
+  rules: {
+    "import/order": [
+      "error",
+      {
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "type",
+        ],
+        pathGroups: [{ pattern: "@/**", group: "internal" }],
+        "newlines-between": "always",
+        alphabetize: { order: "asc" },
+        warnOnUnassignedImports: true,
+      },
+    ],
+  },
   overrides: [
     {
       files: ["**/*.ts", "**/*.tsx"],
