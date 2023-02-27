@@ -27,7 +27,10 @@
     "typescript": "4.9.5"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": "yarn dlx eslint",
-    "**/*": "yarn dlx prettier --write --ignore-unknown"
+    "**/*.{js,jsx,ts,tsx}": [
+      "yarn dlx eslint",
+      "yarn dlx prettier --write --ignore-unknown"
+    ],
+    "!(**/*.{js,jsx,ts,tsx})": "yarn dlx prettier --write --ignore-unknown"
   }
 }
