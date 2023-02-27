@@ -275,7 +275,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.42.0":
+"@typescript-eslint/parser@npm:^5.42.0, @typescript-eslint/parser@npm:^5.53.0":
   version: 5.53.0
   resolution: "@typescript-eslint/parser@npm:5.53.0"
   dependencies:
@@ -960,7 +960,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-typescript@npm:^3.5.2":
+"eslint-import-resolver-typescript@npm:^3.5.2, eslint-import-resolver-typescript@npm:^3.5.3":
   version: 3.5.3
   resolution: "eslint-import-resolver-typescript@npm:3.5.3"
   dependencies:
@@ -2157,9 +2157,11 @@ __metadata:
     "@types/node": 18.14.1
     "@types/react": 18.0.28
     "@types/react-dom": 18.0.11
+    "@typescript-eslint/parser": ^5.53.0
     eslint: 8.35.0
     eslint-config-next: 13.2.1
     eslint-config-prettier: ^8.6.0
+    eslint-import-resolver-typescript: ^3.5.3
     eslint-plugin-import: ^2.27.5
     husky: ^8.0.3
     lint-staged: ^13.1.2
