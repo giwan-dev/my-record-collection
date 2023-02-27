@@ -37,6 +37,6 @@
       "yarn dlx eslint",
       "yarn dlx prettier --write --ignore-unknown"
     ],
-    "!(**/*.{js,jsx,ts,tsx})": "yarn dlx prettier --write --ignore-unknown"
+    "**/*!.{js,jsx,ts,tsx}": "yarn dlx prettier --write --ignore-unknown"
   }
 }
