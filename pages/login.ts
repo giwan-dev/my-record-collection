@@ -20,6 +20,6 @@ export function getServerSideProps(): Promise<
   );
 
   return Promise.resolve({
-    redirect: { destination: url.toString(), permanent: true },
+    redirect: { destination: url.toString(), permanent: false },
   });
 }
