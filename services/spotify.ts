@@ -36,5 +36,5 @@ export async function fetchMe({
     throw new Error(`Spotify API Error: ${response.status}`);
   }
 
-  return await response.json();
+  return (await response.json()) as SpotifyUser;
 }
