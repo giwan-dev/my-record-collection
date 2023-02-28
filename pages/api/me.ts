@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<SpotifyUser | "">
+  res: NextApiResponse<SpotifyUser | "">,
 ) {
   if (req.method !== "GET") {
     res.statusCode = 405;
@@ -14,7 +14,7 @@ export default async function handler(
   const cookie = new Map(
     req.headers.cookie
       ?.split("; ")
-      .map((str) => str.split("=") as [string, string])
+      .map((str) => str.split("=") as [string, string]),
   );
 
   const accessToken = cookie.get("SP_AT");

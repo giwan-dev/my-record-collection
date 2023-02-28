@@ -16,7 +16,7 @@ export function getServerSideProps(): Promise<
   url.searchParams.append("scope", "user-read-private user-read-email");
   url.searchParams.append(
     "redirect_uri",
-    "http://localhost:3000/handle-spotify-login"
+    "http://localhost:3000/handle-spotify-login",
   );
 
   return Promise.resolve({

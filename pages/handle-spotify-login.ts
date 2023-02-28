@@ -27,7 +27,7 @@ export async function getServerSideProps({
     method: "POST",
     headers: {
       Authorization: `Basic ${Buffer.from(
-        `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`
+        `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`,
       ).toString("base64")}`,
       Accept: "application/json",
       "Content-Type": "application/x-www-form-urlencoded",
@@ -57,7 +57,7 @@ export async function getServerSideProps({
       "SameSite=Strict",
     ].join("; "),
     [`SP_RT=${refresh_token}`, "HttpOnly", "Secure", "SameSite=Strict"].join(
-      "; "
+      "; ",
     ),
   ]);
 
