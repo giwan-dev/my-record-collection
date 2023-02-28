@@ -56,6 +56,9 @@ module.exports = {
         },
         "import/external-module-folders": [".yarn"],
       },
+      rules: {
+        "@typescript-eslint/consistent-type-imports": "warn",
+      },
     },
   ],
 };
