@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { fetchMe, SpotifyUser } from "@/services/spotify";
+import { fetchMe } from "@/services/spotify";
+import type { SpotifyUser } from "@/services/spotify";
 
 export default async function handler(
   req: NextApiRequest,
