@@ -1,6 +1,7 @@
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "@/common/env";
+import { getProtocol } from "@/utils/vercel";
 
 export default function HandleSpotifyLoginPage() {
   return null;
@@ -8,6 +9,9 @@ export default function HandleSpotifyLoginPage() {
 
 export async function getServerSideProps({
   query,
+  req: {
+    headers: { host },
+  },
   res,
 }: GetServerSidePropsContext): Promise<GetServerSidePropsResult<unknown>> {
   const { code, error } = query;
@@ -16,11 +20,20 @@ export async function getServerSideProps({
     throw new Error(error as string); // FIXME
   }
 
+  if (host === undefined) {
+    throw new Error("절대 경로를 알 수 없습니다.");
+  }
+
+  const redirectUrl = new URL(
+    "/handle-spotify-login",
+    `${getProtocol()}${host}`,
+  );
+
   const body = new URLSearchParams();
 
   body.append("grant_type", "authorization_code");
   body.append("code", code as string); // FIXME
-  body.append("redirect_uri", "http://localhost:3000/handle-spotify-login");
+  body.append("redirect_uri", redirectUrl.toString());
   body.append("client_id", SPOTIFY_CLIENT_ID);
 
   const response = await fetch("https://accounts.spotify.com/api/token", {
