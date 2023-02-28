@@ -1,5 +1,6 @@
-import { useSpotifyUser } from "@/components/spotify-user";
 import Link from "next/link";
+
+import { useSpotifyUser } from "@/components/spotify-user";
 
 export default function Home() {
   const user = useSpotifyUser();

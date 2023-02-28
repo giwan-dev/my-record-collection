@@ -1,7 +1,7 @@
-import type { SpotifyUser } from "@/services/spotify";
 import { createContext, useContext, useEffect, useState } from "react";
-
 import type { PropsWithChildren } from "react";
+
+import type { SpotifyUser } from "@/services/spotify";
 
 const UserContext = createContext<SpotifyUser | undefined | null>(null);
 

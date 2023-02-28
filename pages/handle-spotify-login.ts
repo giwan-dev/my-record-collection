@@ -1,6 +1,6 @@
-import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "@/common/env";
-
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+
+import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "@/common/env";
 
 export default function HandleSpotifyLoginPage() {
   return null;
