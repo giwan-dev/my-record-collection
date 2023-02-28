@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse<SpotifyUser | "">,
 ) {
   if (req.method !== "GET") {
-    res.statusCode = 405;
+    res.status(405).send("");
     return;
   }
 
