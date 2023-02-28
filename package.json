@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "next": "13.2.1",
@@ -35,9 +36,9 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "yarn dlx eslint",
-      "yarn dlx prettier --write --ignore-unknown"
+      "eslint",
+      "prettier --write --ignore-unknown"
     ],
-    "**/*!.{js,jsx,ts,tsx}": "yarn dlx prettier --write --ignore-unknown"
+    "!**/*.{js,jsx,ts,tsx}": "prettier --write --ignore-unknown"
   }
 }
