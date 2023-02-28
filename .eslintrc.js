@@ -27,6 +27,9 @@ module.exports = {
       },
     ],
   },
+  settings: {
+    "import/external-module-folders": [".yarn"],
+  },
   overrides: [
     {
       files: ["**/*.ts", "**/*.tsx"],
@@ -52,6 +55,7 @@ module.exports = {
           typescript: true,
           node: true,
         },
+        "import/external-module-folders": [".yarn"],
       },
     },
   ],
