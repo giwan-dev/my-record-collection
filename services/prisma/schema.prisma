@@ -62,10 +62,18 @@ model VerificationToken {
 }
 
 model Album {
-  id       String  @id @default(cuid())
-  title    String
-  artist   String
-  imageUrl String?
-  userId   String
-  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String       @id @default(cuid())
+  title        String
+  artist       String
+  userId       String
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  physicalForm PhysicalForm
+  spotifyUri   String?
+  imageUrl     String?
+}
+
+enum PhysicalForm {
+  VINYL
+  CD
+  CASSETTE
 }
