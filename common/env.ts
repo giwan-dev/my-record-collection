@@ -2,6 +2,7 @@ export const SPOTIFY_CLIENT_ID = getEnvironmentVariable("SPOTIFY_CLIENT_ID");
 export const SPOTIFY_CLIENT_SECRET = getEnvironmentVariable(
   "SPOTIFY_CLIENT_SECRET",
 );
+export const SECRET = process.env.SECRET;
 
 function getEnvironmentVariable(key: string): string {
   const value = process.env[key];
