@@ -2,7 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 export function Header() {
   return (
-    <nav className="py-2 px-4 shadow-sm sticky top-0 bg-white flex justify-end gap-x-2">
+    <nav className="py-2 px-4 shadow-sm sticky top-0 bg-white flex justify-end gap-x-2 z-10">
       <SessionView />
     </nav>
   );
