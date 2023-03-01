@@ -54,6 +54,20 @@ export function SpotifyAlbumSelect({
     };
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Escape") {
+        setSuggestionsVisible(false);
+        setKeyword("");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <section className="relative mb-4 py-2" ref={sectionRef}>
       {value && (
