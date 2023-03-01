@@ -12,7 +12,9 @@ export default function MyApp({
   return (
     <SessionProvider session={session}>
       <SpotifyUserProvider>
-        <Component {...pageProps} />
+        <div className="mx-auto max-w-3xl">
+          <Component {...pageProps} />
+        </div>
       </SpotifyUserProvider>
     </SessionProvider>
   );
