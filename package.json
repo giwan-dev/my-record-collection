@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "prettier": "prettier --write .",
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "lint-staged": "lint-staged",
     "prisma:db-push": "prisma db push",
     "prisma:studio": "prisma studio",
