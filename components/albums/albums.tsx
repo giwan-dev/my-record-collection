@@ -7,7 +7,7 @@ export function Albums({ albums }: { albums: Album[] }) {
   return (
     <ul className="grid grid-cols-3 px-2">
       {albums.map((album) => (
-        <li key={album.id} className="flex flex-col">
+        <li key={album.id} className="flex flex-col gap-y-1">
           {album.imageUrl ? (
             <Image
               src={album.imageUrl}
@@ -17,10 +17,20 @@ export function Albums({ albums }: { albums: Album[] }) {
             />
           ) : null}
 
-          <span className="text-base text-neutral-700 whitespace-nowrap overflow-hidden text-ellipsis">
-            <span className="inline-block mr-1">{album.artist}</span>
-            <span className="font-bold">{album.title}</span>
-          </span>
+          <div className="text-xs px-1">
+            <div className="flex justify-between items-center">
+              <div className="text-neutral-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+                {album.title}
+              </div>
+
+              <div className="text-[8px] tracking-tight text-neutral-600 font-bold rounded-sm border px-1">
+                {album.physicalForm}
+              </div>
+            </div>
+            <div className="text-neutral-600 whitespace-nowrap overflow-hidden text-ellipsis">
+              {album.artist}
+            </div>
+          </div>
         </li>
       ))}
     </ul>
