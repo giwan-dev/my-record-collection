@@ -34,7 +34,9 @@ export function SpotifyAlbumSelect({
       }
     };
 
-    void fetchAlbums(deferredKeyword);
+    if (deferredKeyword) {
+      void fetchAlbums(deferredKeyword);
+    }
   }, [deferredKeyword]);
 
   const sectionRef = useRef<HTMLDivElement>(null);
