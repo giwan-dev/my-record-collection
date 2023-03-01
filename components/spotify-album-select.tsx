@@ -74,9 +74,9 @@ export function SpotifyAlbumSelect({
       />
 
       {suggestionsVisible && (
-        <div className="absolute bottom-0 translate-y-full w-full rounded border p-2 shadow-sm bg-white">
+        <div className="absolute bottom-0 translate-y-full w-full rounded border py-2 shadow-sm bg-white">
           {suggestions.length > 0 ? (
-            <ul className="w-full max-h-60 overflow-auto gap-y-1">
+            <ul className="w-full max-h-60 pl-2 pr-3 overflow-auto gap-y-1">
               {suggestions.map((suggestion) => (
                 <li key={suggestion.id} className="w-full">
                   <SpotifyAlbumEntity
@@ -95,7 +95,9 @@ export function SpotifyAlbumSelect({
               ))}
             </ul>
           ) : (
-            <div className="text-sm text-neutral-600">검색어를 입력하세요</div>
+            <div className="px-2 text-sm text-neutral-600">
+              검색어를 입력하세요
+            </div>
           )}
         </div>
       )}
