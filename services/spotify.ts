@@ -43,6 +43,53 @@ export async function fetchMe({
   return (await response.json()) as SpotifyUser;
 }
 
+export interface SpotifyAlbum {
+  album_type: "album" | "single" | "compilation";
+  total_tracks: number;
+  available_markets: string[]; // ISO3166-1 alpha-2 contry code
+  external_urls: {
+    spotify: string; // url
+  };
+  href: string;
+  id: string;
+  images: {
+    url: string;
+    height: number;
+    width: number;
+  }[];
+  name: string;
+  release_date: string;
+  release_date_precision: "year" | "month" | "day";
+  restrictions: {
+    reason: "market" | "product" | "explicit";
+  };
+  type: "album";
+  uri: string; // Spotify URI
+  copyrights: {
+    text: string;
+    type: "C" | "P";
+  }[];
+  external_ids: {
+    isrc: string;
+    ean: string;
+    upc: string;
+  };
+  genres: string[];
+  label: string;
+  popularity: number; // 0 ~ 100
+  album_group: "album" | "single" | "compilation" | "appears_on";
+  artists: {
+    external_urls: {
+      spotify: string;
+    };
+    href: string;
+    id: string;
+    name: string;
+    type: "artist";
+    uri: string; // Spotify URI
+  }[];
+}
+
 export interface SearchApiResponse {
   albums: {
     href: string;
@@ -51,52 +98,7 @@ export interface SearchApiResponse {
     offset: number;
     previous: string;
     total: number;
-    items: {
-      album_type: "album" | "single" | "compilation";
-      total_tracks: number;
-      available_markets: string[]; // ISO3166-1 alpha-2 contry code
-      external_urls: {
-        spotify: string; // url
-      };
-      href: string;
-      id: string;
-      images: {
-        url: string;
-        height: number;
-        width: number;
-      }[];
-      name: string;
-      release_date: string;
-      release_date_precision: "year" | "month" | "day";
-      restrictions: {
-        reason: "market" | "product" | "explicit";
-      };
-      type: "album";
-      uri: string; // Spotify URI
-      copyrights: {
-        text: string;
-        type: "C" | "P";
-      }[];
-      external_ids: {
-        isrc: string;
-        ean: string;
-        upc: string;
-      };
-      genres: string[];
-      label: string;
-      popularity: number; // 0 ~ 100
-      album_group: "album" | "single" | "compilation" | "appears_on";
-      artists: {
-        external_urls: {
-          spotify: string;
-        };
-        href: string;
-        id: string;
-        name: string;
-        type: "artist";
-        uri: string; // Spotify URI
-      }[];
-    }[];
+    items: SpotifyAlbum[];
   };
 }
 
