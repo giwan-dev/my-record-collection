@@ -3,6 +3,8 @@ import { useDeferredValue, useEffect, useRef, useState } from "react";
 
 import type { SearchApiResponse, SpotifyAlbum } from "@/services/spotify";
 
+import { Input } from "./form-fields";
+
 export function SpotifyAlbumSelect({
   value,
   onChange,
@@ -58,9 +60,9 @@ export function SpotifyAlbumSelect({
         </div>
       )}
 
-      <input
+      <Input
         type="search"
-        className="w-full border rounded-md px-2 py-1 text-sm"
+        className="w-full"
         placeholder="검색..."
         onFocus={() => {
           setSuggestionsVisible(true);

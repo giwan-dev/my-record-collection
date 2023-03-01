@@ -1,10 +1,10 @@
 import { PhysicalForm } from "@prisma/client";
-import type { InputHTMLAttributes, PropsWithChildren } from "react";
 import { useState } from "react";
 
 import type { ValuesForCreatingAlbum } from "@/pages/api/albums";
 import type { SpotifyAlbum } from "@/services/spotify";
 
+import { Label, Input } from "./form-fields";
 import { SpotifyAlbumSelect } from "./spotify-album-select";
 
 const TITLE_INPUT_NAME = "album-title";
@@ -127,28 +127,4 @@ function considerAsStringOrNull(
   }
 
   return value;
-}
-
-function Label({ label, children }: PropsWithChildren<{ label: string }>) {
-  return (
-    <label className="flex flex-col gap-y-1 text-base max-w-lg">
-      <span className="text-xs text-neutral-700 font-medium">{label}</span>
-
-      {children}
-    </label>
-  );
-}
-
-function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input
-      {...props}
-      className={[
-        className,
-        "border border-neutral-400 rounded-lg px-2 py-1 text-sm",
-      ]
-        .filter((x) => !!x)
-        .join(" ")}
-    />
-  );
 }
