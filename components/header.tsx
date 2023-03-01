@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export function Header() {
   return (
@@ -30,12 +30,14 @@ function SessionView() {
 
   if (session === null) {
     return (
-      <Link
-        href="/api/auth/signin"
+      <button
         className="h-8 border px-2 py-1 rounded-lg text-sm"
+        onClick={() => {
+          void signIn("spotify");
+        }}
       >
         로그인
-      </Link>
+      </button>
     );
   }
 
