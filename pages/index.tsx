@@ -1,7 +1,8 @@
 import type { Album } from "@prisma/client";
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import Image from "next/image";
 import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import { Albums } from "@/components/albums";
 import { NewAlbumRegisterForm } from "@/components/new-album/form";
@@ -14,8 +15,40 @@ interface Props {
   albums: Album[];
 }
 
+const HEIGHT_RATIO_OF_SPOTIFY_LOGO = 709 / 2362;
+
 export default function Home({ albums }: Props) {
-  const { data: session } = useSession();
+  const { status } = useSession();
+
+  if (status === "unauthenticated") {
+    const width = 120;
+    const height = Math.round(HEIGHT_RATIO_OF_SPOTIFY_LOGO * width);
+
+    return (
+      <main className="h-full flex justify-center items-center">
+        <button
+          className="border rounded-lg px-4 py-2 flex items-center gap-x-1"
+          onClick={() => {
+            void signIn("spotify");
+          }}
+        >
+          <Image
+            className="inline-block"
+            src="/Spotify_Logo_RGB_Green.png"
+            alt="Spotify"
+            width={width}
+            height={height}
+          />
+
+          <span className="text-lg text-neutral-900">시작하기</span>
+        </button>
+      </main>
+    );
+  }
+
+  if (status === "loading") {
+    return null;
+  }
 
   return (
     <main className="h-full">
@@ -23,7 +56,7 @@ export default function Home({ albums }: Props) {
 
       <NewAlbumRegisterForm />
 
-      {session !== null && <SpotifySearchForm />}
+      <SpotifySearchForm />
     </main>
   );
 }
