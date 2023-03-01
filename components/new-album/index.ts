@@ -1,1 +1,2 @@
-export type { Album } from "./form";
+export { NewAlbumRegisterFormModal } from "./modal";
+export type { InitialAlbum, ValuesForCreatingAlbum } from "./modal";
