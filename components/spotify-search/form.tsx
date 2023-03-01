@@ -3,9 +3,15 @@ import { useState } from "react";
 
 import type { SearchApiResponse } from "@/services/spotify";
 
+import type { InitialAlbum } from "../new-album";
+
 const ALBUM_TITLE_INPUT_NAME = "album-title";
 
-export function SpotifySearchForm() {
+export function SpotifySearchForm({
+  onSelect,
+}: {
+  onSelect: (album: InitialAlbum) => void;
+}) {
   const [albums, setAlbums] = useState<SearchApiResponse["albums"]["items"]>(
     [],
   );
@@ -86,13 +92,18 @@ export function SpotifySearchForm() {
                   <span className="font-bold">{album.name}</span>
                 </div>
 
-                <code className="font-mono text-xs text-neutral-400">
-                  {album.uri}
-                </code>
-
-                <code className="font-mono text-xs text-neutral-400">
-                  {album.images[0].url}
-                </code>
+                <button
+                  className="w-fit rounded border px-2 py-1 text-sm text-neutral-600"
+                  onClick={() => {
+                    onSelect({
+                      title: album.name,
+                      artist: album.artists[0].name,
+                      imageUrl: album.images[0].url,
+                    });
+                  }}
+                >
+                  추가
+                </button>
               </div>
             </li>
           );
