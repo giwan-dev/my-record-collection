@@ -39,7 +39,7 @@ export function SpotifySearchForm() {
   };
 
   return (
-    <>
+    <div className="flex flex-col gap-y-4 p-4">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -49,15 +49,20 @@ export function SpotifySearchForm() {
           void fetchAlbums(query);
         }}
       >
-        <label>
-          앨범 제목
-          <input name={ALBUM_TITLE_INPUT_NAME} type="search" />
+        <label className="flex flex-col gap-y-1 text-base max-w-sm">
+          <span className="text-xs text-neutral-700 font-medium">
+            앨범 제목으로 검색
+          </span>
+          <input
+            className="border border-neutral-400 rounded-lg px-2 py-1 text-sm"
+            name={ALBUM_TITLE_INPUT_NAME}
+            type="search"
+            placeholder="입력하세요..."
+          />
         </label>
-
-        <button type="submit">검색</button>
       </form>
 
-      <div>
+      <ul className="flex flex-col gap-y-2">
         {albums.map((album) => {
           const size = 80;
           const displayingImage = album.images.find(
@@ -65,7 +70,7 @@ export function SpotifySearchForm() {
           );
 
           return (
-            <div key={album.id}>
+            <li key={album.id} className="flex gap-x-1">
               {displayingImage && (
                 <Image
                   src={displayingImage.url}
@@ -75,20 +80,24 @@ export function SpotifySearchForm() {
                 />
               )}
 
-              <div>
-                Spotify URI: <code>{album.uri}</code>
-              </div>
+              <div className="flex flex-col gap-y-1">
+                <div className="text-neutral-800 flex gap-x-1">
+                  <span>{album.artists[0].name}</span>
+                  <span className="font-bold">{album.name}</span>
+                </div>
 
-              <div>제목: {album.name}</div>
+                <code className="font-mono text-xs text-neutral-400">
+                  {album.uri}
+                </code>
 
-              <div>
-                아티스트:{" "}
-                {album.artists.map((artist) => artist.name).join(", ")}
+                <code className="font-mono text-xs text-neutral-400">
+                  {album.images[0].url}
+                </code>
               </div>
-            </div>
+            </li>
           );
         })}
-      </div>
-    </>
+      </ul>
+    </div>
   );
 }
