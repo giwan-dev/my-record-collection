@@ -62,9 +62,9 @@ export default function Home({ albums }: Props) {
 
   return (
     <Main className="flex flex-col gap-8">
-      <Albums albums={albums} />
-
       <NewAlbumForm onSubmit={(values) => void postAlbumAndRefetch(values)} />
+
+      <Albums albums={albums} />
     </Main>
   );
 }
