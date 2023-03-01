@@ -49,6 +49,7 @@
       "eslint",
       "prettier --write --ignore-unknown"
     ],
-    "!**/*.{js,jsx,ts,tsx}": "prettier --write --ignore-unknown"
+    "!**/*.{js,jsx,ts,tsx}": "prettier --write --ignore-unknown",
+    "schema.prisma": "npm run prisma:db-push && npm run prisma:generate"
   }
 }
