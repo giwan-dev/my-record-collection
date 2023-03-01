@@ -5,7 +5,7 @@ import NextAuth from "next-auth/next";
 import SpotifyProvider from "next-auth/providers/spotify";
 
 import { SECRET, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "@/common/env";
-import prisma from "@/services/prisma";
+import prismaClient from "@/services/prisma";
 
 export default function authHandler(req: NextApiRequest, res: NextApiResponse) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -19,7 +19,7 @@ export const nextAuthOptions: NextAuthOptions = {
       clientSecret: SPOTIFY_CLIENT_SECRET,
     }),
   ],
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prismaClient),
   secret: SECRET,
   callbacks: {
     session({ session, user }) {

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
 import type { ValuesForCreatingAlbum } from "@/components/new-album";
-import prisma from "@/services/prisma";
+import prismaClient from "@/services/prisma";
 
 import { nextAuthOptions } from "./auth/[...nextauth]";
 
@@ -32,7 +32,7 @@ export default async function handler(
   ) as ValuesForCreatingAlbum;
 
   try {
-    await prisma.album.create({
+    await prismaClient.album.create({
       data: { title, artist, imageUrl, userId },
     });
     res.status(200).send("");

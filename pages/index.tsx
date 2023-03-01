@@ -13,7 +13,7 @@ import type {
 } from "@/components/new-album";
 import { NewAlbumRegisterFormModal } from "@/components/new-album";
 import { SpotifySearchForm } from "@/components/spotify-search";
-import prisma from "@/services/prisma";
+import prismaClient from "@/services/prisma";
 
 import { nextAuthOptions } from "./api/auth/[...nextauth]";
 
@@ -99,7 +99,7 @@ export async function getServerSideProps({
     return { props: { albums: [] } };
   }
 
-  const albums = await prisma.album.findMany({ where: { userId } });
+  const albums = await prismaClient.album.findMany({ where: { userId } });
 
   return { props: { albums } };
 }
