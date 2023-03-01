@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { ValuesForCreatingAlbum } from "@/pages/api/albums";
 import type { SpotifyAlbum } from "@/services/spotify";
 
-import { Label, Input } from "./form-fields";
+import { Label, Input, Select } from "./form-fields";
 import { SpotifyAlbumSelect } from "./spotify-album-select";
 
 const TITLE_INPUT_NAME = "album-title";
@@ -79,11 +79,11 @@ export function NewAlbumForm({
         </Label>
 
         <Label label="종류">
-          <select name={PHYSICAL_FORM_INPUT_NAME}>
+          <Select name={PHYSICAL_FORM_INPUT_NAME}>
             <option value={PhysicalForm.VINYL}>바이닐</option>
             <option value={PhysicalForm.CD}>CD</option>
             <option value={PhysicalForm.CASSETTE}>카세트</option>
-          </select>
+          </Select>
         </Label>
 
         <button
