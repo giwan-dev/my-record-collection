@@ -1,11 +1,6 @@
 import Image from "next/image";
 
-interface Album {
-  id: string;
-  title: string;
-  artist: string;
-  imageUrl: string | null;
-}
+import type { Album } from "@/components/new-album";
 
 const albums: Album[] = [
   {

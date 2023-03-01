@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Albums } from "@/components/albums";
+import { NewAlbumRegisterForm } from "@/components/new-album/form";
 import { SpotifySearchForm } from "@/components/spotify-search";
 import { useSpotifyUser } from "@/components/spotify-user";
 
@@ -10,6 +11,8 @@ export default function Home() {
   return (
     <main>
       <Albums />
+
+      <NewAlbumRegisterForm />
 
       {user !== undefined ? (
         <SpotifySearchForm />
