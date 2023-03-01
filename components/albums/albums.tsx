@@ -5,7 +5,7 @@ export function Albums({ albums }: { albums: Album[] }) {
   const imageSize = 300;
 
   return (
-    <ul className="grid grid-cols-3">
+    <ul className="grid grid-cols-3 px-2">
       {albums.map((album) => (
         <li key={album.id} className="flex flex-col">
           {album.imageUrl ? (

@@ -39,7 +39,7 @@ export function NewAlbumForm({
   };
 
   return (
-    <section>
+    <section className="px-4">
       <h2 className="font-bold">새로운 앨범 등록</h2>
 
       <SpotifyAlbumSelect
