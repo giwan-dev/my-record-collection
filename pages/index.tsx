@@ -1,12 +1,11 @@
-import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 import { Albums } from "@/components/albums";
 import { NewAlbumRegisterForm } from "@/components/new-album/form";
 import { SpotifySearchForm } from "@/components/spotify-search";
-import { useSpotifyUser } from "@/components/spotify-user";
 
 export default function Home() {
-  const user = useSpotifyUser();
+  const { data: session } = useSession();
 
   return (
     <main className="h-full">
@@ -14,11 +13,7 @@ export default function Home() {
 
       <NewAlbumRegisterForm />
 
-      {user !== undefined ? (
-        <SpotifySearchForm />
-      ) : (
-        <Link href="/login">Spotify 로그인</Link>
-      )}
+      {session !== null && <SpotifySearchForm />}
     </main>
   );
 }

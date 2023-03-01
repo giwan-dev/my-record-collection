@@ -1,7 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { NextAuthOptions, Session } from "next-auth";
-import type { JWT } from "next-auth/jwt";
+import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import SpotifyProvider from "next-auth/providers/spotify";
 
@@ -23,14 +22,8 @@ export const nextAuthOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: SECRET,
   callbacks: {
-    jwt({ token, account }) {
-      if (account) {
-        token.accessToken = account.access_token;
-      }
-      return token;
-    },
-    session({ session, token }: { session: Session; token: JWT }) {
-      session.accessToken = token.accessToken;
+    session({ session, user }) {
+      session.userId = user.id;
       return session;
     },
   },
@@ -38,12 +31,6 @@ export const nextAuthOptions: NextAuthOptions = {
 
 declare module "next-auth" {
   interface Session {
-    accessToken?: string;
-  }
-}
-
-declare module "next-auth/jwt" {
-  interface JWT {
-    accessToken?: string;
+    userId: string;
   }
 }

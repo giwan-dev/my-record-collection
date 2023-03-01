@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react";
 
 import "@/common/global.css";
 import { Header } from "@/components/header";
-import { SpotifyUserProvider } from "@/components/spotify-user";
 
 export default function MyApp({
   Component,
@@ -12,13 +11,11 @@ export default function MyApp({
 }: AppProps<{ session: Session | null }>) {
   return (
     <SessionProvider session={session}>
-      <SpotifyUserProvider>
-        <Header />
+      <Header />
 
-        <div className="mx-auto max-w-3xl">
-          <Component {...pageProps} />
-        </div>
-      </SpotifyUserProvider>
+      <div className="mx-auto max-w-3xl">
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 }
