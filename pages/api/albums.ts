@@ -1,10 +1,15 @@
+import type { Album } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
-import type { ValuesForCreatingAlbum } from "@/components/new-album";
 import prismaClient from "@/services/prisma";
 
 import { nextAuthOptions } from "./auth/[...nextauth]";
+
+export type ValuesForCreatingAlbum = Pick<
+  Album,
+  "title" | "artist" | "imageUrl" | "physicalForm" | "spotifyUri"
+>;
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,14 +32,10 @@ export default async function handler(
     return;
   }
 
-  const { title, artist, imageUrl } = JSON.parse(
-    req.body,
-  ) as ValuesForCreatingAlbum;
+  const data = JSON.parse(req.body) as ValuesForCreatingAlbum;
 
   try {
-    await prismaClient.album.create({
-      data: { title, artist, imageUrl, userId },
-    });
+    await prismaClient.album.create({ data: { ...data, userId } });
     res.status(200).send("");
   } catch (error) {
     if (error instanceof Error) {
