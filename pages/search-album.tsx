@@ -79,9 +79,7 @@ export default function SearchAlbumPage() {
                 Spotify URI: <code>{album.uri}</code>
               </div>
 
-              <div>
-                제목: {album.artists.map((artist) => artist.name).join(", ")}
-              </div>
+              <div>제목: {album.name}</div>
 
               <div>
                 아티스트:{" "}
