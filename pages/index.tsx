@@ -9,7 +9,7 @@ export default function Home() {
   const user = useSpotifyUser();
 
   return (
-    <main>
+    <main className="bg-neutral-50 h-full">
       <Albums />
 
       <NewAlbumRegisterForm />
