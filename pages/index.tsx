@@ -81,5 +81,7 @@ function Main({
   className,
   children,
 }: PropsWithChildren<{ className?: string }>) {
-  return <main className={[className, "p-10"].join(" ")}>{children}</main>;
+  return (
+    <main className={[className, "px-4", "py-10"].join(" ")}>{children}</main>
+  );
 }
