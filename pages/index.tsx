@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Albums } from "@/components/albums";
+import { SpotifySearchForm } from "@/components/spotify-search";
 import { useSpotifyUser } from "@/components/spotify-user";
 
 export default function Home() {
@@ -10,9 +11,11 @@ export default function Home() {
     <main>
       <Albums />
 
-      {user === undefined && <Link href="/login">Spotify 로그인</Link>}
-
-      {user !== undefined && <h1>안녕하세요, {user.display_name}</h1>}
+      {user !== undefined ? (
+        <SpotifySearchForm />
+      ) : (
+        <Link href="/login">Spotify 로그인</Link>
+      )}
     </main>
   );
 }

@@ -5,7 +5,7 @@ import type { SearchApiResponse } from "@/services/spotify";
 
 const ALBUM_TITLE_INPUT_NAME = "album-title";
 
-export default function SearchAlbumPage() {
+export function SpotifySearchForm() {
   const [albums, setAlbums] = useState<SearchApiResponse["albums"]["items"]>(
     [],
   );
