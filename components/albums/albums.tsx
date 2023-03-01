@@ -21,9 +21,12 @@ const albums: Album[] = [
 
 export function Albums() {
   return (
-    <ul className="flex flex-wrap gap-8 p-10">
+    <ul className="p-4 flex flex-wrap gap-4">
       {albums.map((album) => (
-        <li key={album.id} className="flex flex-col gap-y-2">
+        <li
+          key={album.id}
+          className="p-4 rounded-lg border flex flex-col gap-y-2 "
+        >
           {album.imageUrl ? (
             <Image
               src={album.imageUrl}
