@@ -1,3 +1,5 @@
+import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "@/common/env";
+
 const SPOTIFY_API_URL_BASE = "https://api.spotify.com/v1";
 
 export interface SpotifyUser {
@@ -102,10 +104,14 @@ export async function search({
   query,
   type,
   accessToken,
+  refreshToken,
+  onRefreshed,
 }: {
   query: string;
   type: "album"[];
   accessToken: string;
+  refreshToken: string | undefined;
+  onRefreshed?: (token: SpotifyToken) => void | Promise<void>;
 }): Promise<SearchApiResponse> {
   const url = new URL(`${SPOTIFY_API_URL_BASE}/search`);
   url.searchParams.append("q", query);
@@ -118,8 +124,51 @@ export async function search({
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      if (refreshToken) {
+        const token = await refreshAccessToken(refreshToken);
+
+        void onRefreshed?.(token);
+
+        return search({
+          query,
+          type,
+          accessToken: token.access_token,
+          refreshToken,
+        });
+      }
+    }
+
     throw new Error(`Spotify API Error: ${response.status} in GET /search`);
   }
 
   return (await response.json()) as SearchApiResponse;
+}
+
+interface SpotifyToken {
+  access_token: string;
+  token_type: "Bearer";
+  expires_in: number;
+  scope: string;
+}
+
+async function refreshAccessToken(refreshToken: string): Promise<SpotifyToken> {
+  const url = new URL("https://accounts.spotify.com/api/token");
+  url.searchParams.append("client_id", SPOTIFY_CLIENT_ID);
+  url.searchParams.append("client_secret", SPOTIFY_CLIENT_SECRET);
+  url.searchParams.append("grant_type", "refresh_token");
+  url.searchParams.append("refresh_token", refreshToken);
+
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Spotify API Error: ${response.status}`);
+  }
+
+  return (await response.json()) as SpotifyToken;
 }
