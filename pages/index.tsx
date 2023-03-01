@@ -4,17 +4,12 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { signIn, useSession } from "next-auth/react";
 import type { PropsWithChildren } from "react";
-import { useState, useRef } from "react";
 
 import { Albums } from "@/components/albums";
-import type {
-  InitialAlbum,
-  ValuesForCreatingAlbum,
-} from "@/components/new-album";
-import { NewAlbumRegisterFormModal } from "@/components/new-album";
-import { SpotifySearchForm } from "@/components/spotify-search";
+import { NewAlbumForm } from "@/components/new-album-form";
 import prismaClient from "@/services/prisma";
 
+import type { ValuesForCreatingAlbum } from "./api/albums";
 import { nextAuthOptions } from "./api/auth/[...nextauth]";
 
 interface Props {
@@ -25,14 +20,14 @@ const HEIGHT_RATIO_OF_SPOTIFY_LOGO = 709 / 2362;
 
 export default function Home({ albums }: Props) {
   const { status } = useSession();
-  const newAlbumRegisterModalRef = useRef<HTMLDialogElement>(null);
-  const [initialAlbum, setInitialAlbum] = useState<InitialAlbum>();
 
-  const handleSubmit = (values: ValuesForCreatingAlbum) => {
-    void fetch("/api/albums", {
+  const postAlbumAndRefetch = async (values: ValuesForCreatingAlbum) => {
+    await fetch("/api/albums", {
       method: "POST",
       body: JSON.stringify(values),
     });
+
+    window.location.reload();
   };
 
   if (status === "unauthenticated") {
@@ -66,25 +61,10 @@ export default function Home({ albums }: Props) {
   }
 
   return (
-    <Main>
+    <Main className="flex flex-col gap-8">
       <Albums albums={albums} />
 
-      <section className="mt-10">
-        <h2 className="font-bold">새로운 앨범 등록하기</h2>
-
-        <SpotifySearchForm
-          onSelect={(initialAlbum) => {
-            setInitialAlbum(initialAlbum);
-            newAlbumRegisterModalRef.current?.showModal();
-          }}
-        />
-
-        <NewAlbumRegisterFormModal
-          dialogRef={newAlbumRegisterModalRef}
-          initialAlbum={initialAlbum}
-          onSubmit={handleSubmit}
-        />
-      </section>
+      <NewAlbumForm onSubmit={(values) => void postAlbumAndRefetch(values)} />
     </Main>
   );
 }

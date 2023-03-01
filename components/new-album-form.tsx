@@ -1,57 +1,58 @@
-import type { Album } from "@prisma/client";
-import type { InputHTMLAttributes, PropsWithChildren, RefObject } from "react";
+import { PhysicalForm } from "@prisma/client";
+import type { InputHTMLAttributes, PropsWithChildren } from "react";
+import { useState } from "react";
 
-export interface InitialAlbum {
-  title: string;
-  artist: string;
-  imageUrl: string;
-}
+import type { ValuesForCreatingAlbum } from "@/pages/api/albums";
+import type { SpotifyAlbum } from "@/services/spotify";
 
-export type ValuesForCreatingAlbum = Pick<
-  Album,
-  "title" | "artist" | "imageUrl"
->;
+import { SpotifyAlbumSelect } from "./spotify-album-select";
 
 const TITLE_INPUT_NAME = "album-title";
 const ARTIST_INPUT_NAME = "album-artist";
-const IMAGE_URL_INPUT_NAME = "album-image-url";
+const PHYSICAL_FORM_INPUT_NAME = "physical-form";
 
-export function NewAlbumRegisterFormModal({
-  initialAlbum,
-  dialogRef,
+export function NewAlbumForm({
   onSubmit,
 }: {
-  initialAlbum: InitialAlbum | undefined;
-  dialogRef: RefObject<HTMLDialogElement>;
   onSubmit: (values: ValuesForCreatingAlbum) => void;
 }) {
-  const initialTitle = initialAlbum?.title;
-  const initialArtist = initialAlbum?.artist;
-  const initialImageUrl = initialAlbum?.imageUrl;
+  const [reference, setReference] = useState<SpotifyAlbum>();
 
   const extractValuesFromFormData = (
     formData: FormData,
   ): ValuesForCreatingAlbum => {
     const title = considerAsString(formData.get(TITLE_INPUT_NAME));
     const artist = considerAsString(formData.get(ARTIST_INPUT_NAME));
-    const imageUrl = considerAsStringOrNull(formData.get(IMAGE_URL_INPUT_NAME));
+    const physicalForm = considerAs(formData.get(PHYSICAL_FORM_INPUT_NAME), [
+      PhysicalForm.VINYL,
+      PhysicalForm.CD,
+      PhysicalForm.CASSETTE,
+    ]);
 
     return {
       title,
       artist,
-      imageUrl,
+      physicalForm,
+      imageUrl: reference?.images[0].url ?? null,
+      spotifyUri: reference?.uri ?? null,
     };
   };
 
   return (
-    <dialog
-      className="fixed top-1/2 left-1/2 m-0 backdrop:bg-neutral-500 backdrop:opacity-80 -translate-x-1/2 -translate-y-1/2 shadow-lg rounded-xl p-0"
-      ref={dialogRef}
-    >
+    <section>
+      <h2 className="font-bold">새로운 앨범 등록</h2>
+
+      <SpotifyAlbumSelect
+        value={reference}
+        onChange={(newValue) => {
+          setReference(newValue ?? undefined);
+        }}
+      />
+
       <form
-        method="dialog"
-        className="p-4 flex flex-col gap-y-3"
+        className="flex flex-col gap-y-3"
         onSubmit={(e) => {
+          e.preventDefault();
           const formData = new FormData(e.currentTarget);
 
           const values = extractValuesFromFormData(formData);
@@ -64,7 +65,7 @@ export function NewAlbumRegisterFormModal({
             type="text"
             name={TITLE_INPUT_NAME}
             required
-            defaultValue={initialTitle}
+            defaultValue={reference?.name}
           />
         </Label>
 
@@ -73,16 +74,16 @@ export function NewAlbumRegisterFormModal({
             type="text"
             name={ARTIST_INPUT_NAME}
             required
-            defaultValue={initialArtist}
+            defaultValue={reference?.artists[0].name}
           />
         </Label>
 
-        <Label label="이미지 URL">
-          <Input
-            type="text"
-            name={IMAGE_URL_INPUT_NAME}
-            defaultValue={initialImageUrl}
-          />
+        <Label label="종류">
+          <select name={PHYSICAL_FORM_INPUT_NAME}>
+            <option value={PhysicalForm.VINYL}>바이닐</option>
+            <option value={PhysicalForm.CD}>CD</option>
+            <option value={PhysicalForm.CASSETTE}>카세트</option>
+          </select>
         </Label>
 
         <button
@@ -92,8 +93,20 @@ export function NewAlbumRegisterFormModal({
           등록
         </button>
       </form>
-    </dialog>
+    </section>
   );
+}
+
+function considerAs<Key extends string>(
+  value: FormDataEntryValue | null,
+  keys: Key[],
+): Key {
+  const stringValue = considerAsString(value);
+
+  if (!keys.includes(stringValue as Key)) {
+    throw new Error(`${stringValue} should be one of ${keys.join(", ")}`);
+  }
+  return stringValue as Key;
 }
 
 function considerAsString(value: FormDataEntryValue | null): string {
