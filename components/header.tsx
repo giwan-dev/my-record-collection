@@ -18,10 +18,10 @@ function SessionView() {
 
   if (status === "loading") {
     return (
-      <div className="flex justify-end gap-x-1 items-center">
+      <div className="flex justify-end gap-x-1 items-center animate-pulse">
         <div className="h-3 w-20 bg-neutral-200 rounded-full" />
 
-        <div className="h-8 border px-2 py-1 rounded-lg animate-pulse text-sm flex items-center">
+        <div className="h-8 border px-2 py-1 rounded-lg text-sm flex items-center">
           <div className="h-3 w-10 bg-neutral-200 rounded-full" />
         </div>
       </div>
