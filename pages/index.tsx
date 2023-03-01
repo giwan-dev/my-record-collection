@@ -3,6 +3,7 @@ import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { signIn, useSession } from "next-auth/react";
+import type { PropsWithChildren } from "react";
 
 import { Albums } from "@/components/albums";
 import { NewAlbumRegisterForm } from "@/components/new-album/form";
@@ -25,7 +26,7 @@ export default function Home({ albums }: Props) {
     const height = Math.round(HEIGHT_RATIO_OF_SPOTIFY_LOGO * width);
 
     return (
-      <main className="h-full flex justify-center items-center">
+      <Main className="h-full flex justify-center items-center">
         <button
           className="border rounded-lg px-4 py-2 flex items-center gap-x-1"
           onClick={() => {
@@ -42,22 +43,22 @@ export default function Home({ albums }: Props) {
 
           <span className="text-lg text-neutral-900">시작하기</span>
         </button>
-      </main>
+      </Main>
     );
   }
 
   if (status === "loading") {
-    return null;
+    return <Main />;
   }
 
   return (
-    <main className="h-full">
+    <Main>
       <Albums albums={albums} />
 
       <NewAlbumRegisterForm />
 
       <SpotifySearchForm />
-    </main>
+    </Main>
   );
 }
 
@@ -74,4 +75,11 @@ export async function getServerSideProps({
   const albums = await prisma.album.findMany({ where: { userId } });
 
   return { props: { albums } };
+}
+
+function Main({
+  className,
+  children,
+}: PropsWithChildren<{ className?: string }>) {
+  return <main className={[className, "p-10"].join(" ")}>{children}</main>;
 }
