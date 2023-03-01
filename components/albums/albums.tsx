@@ -1,25 +1,7 @@
+import type { Album } from "@prisma/client";
 import Image from "next/image";
 
-import type { Album } from "@/components/new-album";
-
-const albums: Album[] = [
-  {
-    id: "1",
-    title: "Bleached",
-    artist: "Loco",
-    imageUrl:
-      "https://i.scdn.co/image/ab67616d0000b27311ffae18db3eeb12217bf206",
-  },
-  {
-    id: "2",
-    title: "Original",
-    artist: "차붐",
-    imageUrl:
-      "https://i.scdn.co/image/ab67616d0000b2734fdf206be2d70b5fee489c79",
-  },
-];
-
-export function Albums() {
+export function Albums({ albums }: { albums: Album[] }) {
   return (
     <ul className="p-4 flex flex-wrap gap-4">
       {albums.map((album) => (
