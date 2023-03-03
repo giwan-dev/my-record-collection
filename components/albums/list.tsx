@@ -44,7 +44,10 @@ export function AlbumList({
               className="flex-shrink-0 text-sm rounded-md px-2 py-1 text-stone-500 hover:text-stone-900 hover:bg-stone-200 transition-all active:bg-stone-300"
               type="button"
               onClick={() => {
-                onDelete(album.id);
+                const response = window.confirm("정말 삭제하시겠습니까?");
+                if (response) {
+                  onDelete(album.id);
+                }
               }}
             >
               삭제
