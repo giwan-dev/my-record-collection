@@ -7,7 +7,7 @@ export function Header() {
 
   return (
     <nav className="py-2 px-4 border-b-2 border-stone-50 shadow-sm sticky top-0 bg-white flex justify-between items-center gap-x-2 z-10">
-      <HeaderNavLink href="/" label="/" className="w-8" />
+      <HeaderNavLink href="/" label="Home" />
 
       {status === "authenticated" && (
         <HeaderNavLink href="/new" label="New Album" />
@@ -20,22 +20,13 @@ export function Header() {
   );
 }
 
-function HeaderNavLink({
-  href,
-  label,
-  className,
-}: {
-  href: string;
-  label: string;
-  className?: string;
-}) {
+function HeaderNavLink({ href, label }: { href: string; label: string }) {
   const { pathname } = useRouter();
 
   return (
     <Link
       href={href}
       className={[
-        className,
         "text-lg text-center hover:text-stone-900",
         pathname === href
           ? "font-bold border-b-2 text-stone-900 border-orange-600"
