@@ -60,6 +60,8 @@ export function NewAlbumForm({
           e.preventDefault();
           const formData = new FormData(e.currentTarget);
 
+          e.currentTarget.reset();
+
           const values = extractValuesFromFormData(formData);
 
           onSubmit(values);
