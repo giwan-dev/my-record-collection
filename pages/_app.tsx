@@ -1,9 +1,12 @@
 import type { AppProps } from "next/app";
+import localFont from "next/font/local";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
 import "@/common/global.css";
 import { Header } from "@/components/header";
+
+const pretendard = localFont({ src: "./PretendardVariable.woff2" });
 
 export default function MyApp({
   Component,
@@ -11,7 +14,12 @@ export default function MyApp({
 }: AppProps<{ session: Session | null }>) {
   return (
     <SessionProvider session={session}>
-      <div className="h-full overflow-auto bg-stone-50">
+      <div
+        className={[
+          "h-full overflow-auto bg-stone-50",
+          pretendard.className,
+        ].join(" ")}
+      >
         <Header />
 
         <Component {...pageProps} />
