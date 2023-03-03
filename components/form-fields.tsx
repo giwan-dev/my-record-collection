@@ -47,7 +47,7 @@ export function Select({
     <select
       {...props}
       className={[
-        "text-base border border-neutral-400 rounded-lg px-2 py-1 bg-transparent hover:border-neutral-700 focus-visible:outline-2",
+        "text-base border border-neutral-400 rounded-lg px-2 py-1 bg-transparent hover:border-neutral-700 focus-visible:outline-2 h-6 box-content",
         className,
       ]
         .filter((x) => !!x)
