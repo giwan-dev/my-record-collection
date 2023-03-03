@@ -16,7 +16,7 @@ export function Albums({ albums }: { albums: Album[] }) {
               alt={`${album.title} 썸네일`}
             />
           ) : (
-            <div className="w-full aspect-square bg-zinc-300 bg-gradient-to-tr from-zinc-300 to-zinc-100" />
+            <div className="w-full aspect-square bg-gradient-to-tr from-stone-300 to-stone-100" />
           )}
 
           <div className="text-xs p-1">
