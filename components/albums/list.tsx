@@ -14,6 +14,9 @@ export function AlbumList({
           key={album.id}
           className="text-base flex justify-between items-center"
         >
+          <div className="text-[8px] tracking-tight text-stone-600 font-bold rounded-sm border px-1">
+            {album.physicalForm}
+          </div>
           <span className="text-lg text-stone-900 font-bold">
             {album.title}
           </span>
