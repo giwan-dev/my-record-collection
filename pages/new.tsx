@@ -9,8 +9,6 @@ export default function NewAlbumPage() {
       method: "POST",
       body: JSON.stringify(values),
     });
-
-    window.location.reload();
   };
 
   return (
