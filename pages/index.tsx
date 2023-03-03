@@ -39,7 +39,7 @@ export default function Home({ albums }: Props) {
             height={height}
           />
 
-          <span className="text-lg text-neutral-900">시작하기</span>
+          <span className="text-lg text-stone-900">시작하기</span>
         </button>
       </Main>
     );

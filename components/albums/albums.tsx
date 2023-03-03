@@ -21,15 +21,15 @@ export function Albums({ albums }: { albums: Album[] }) {
 
           <div className="text-xs p-1">
             <div className="flex justify-between items-center">
-              <div className="text-neutral-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+              <div className="text-stone-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
                 {album.title}
               </div>
 
-              <div className="text-[8px] tracking-tight text-neutral-600 font-bold rounded-sm border px-1">
+              <div className="text-[8px] tracking-tight text-stone-600 font-bold rounded-sm border px-1">
                 {album.physicalForm}
               </div>
             </div>
-            <div className="text-neutral-600 whitespace-nowrap overflow-hidden text-ellipsis">
+            <div className="text-stone-600 whitespace-nowrap overflow-hidden text-ellipsis">
               {album.artist}
             </div>
           </div>

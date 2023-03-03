@@ -99,7 +99,7 @@ export function NewAlbumForm({
 
         <button
           type="submit"
-          className="bg-orange-600 text-neutral-50 px-4 py-2 rounded-xl text-sm"
+          className="bg-orange-600 text-stone-50 px-4 py-2 rounded-xl text-sm"
         >
           등록
         </button>

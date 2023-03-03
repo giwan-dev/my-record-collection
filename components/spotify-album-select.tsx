@@ -111,7 +111,7 @@ export function SpotifyAlbumSelect({
               ))}
             </ul>
           ) : (
-            <div className="px-2 text-sm text-neutral-600">
+            <div className="px-2 text-sm text-stone-600">
               검색어를 입력하세요
             </div>
           )}
@@ -140,10 +140,10 @@ function SpotifyAlbumEntity({
       <Image src={url} width={60} height={60} alt={`${name} 커버 이미지`} />
 
       <div className="flex-auto min-w-0 flex flex-col text-sm">
-        <div className="text-neutral-800 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+        <div className="text-stone-800 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
           {name}
         </div>
-        <div className="text-neutral-600">{artistName}</div>
+        <div className="text-stone-600">{artistName}</div>
       </div>
 
       <button
