@@ -1,0 +1,44 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth";
+
+import prismaClient from "@/services/prisma";
+
+import { nextAuthOptions } from "../auth/[...nextauth]";
+
+export default async function hander(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  if (req.method !== "DELETE") {
+    res.status(405).send("");
+    return;
+  }
+
+  const { userId } = (await getServerSession(req, res, nextAuthOptions)) ?? {};
+
+  if (userId === undefined) {
+    res.status(401).send("");
+    return;
+  }
+
+  try {
+    const { albumId } = req.query;
+
+    if (albumId === undefined || Array.isArray(albumId)) {
+      res.status(400).json({ error: "Invalid albumId" });
+      return;
+    }
+
+    await prismaClient.album.delete({
+      where: { id: albumId },
+    });
+
+    res.status(204).send("");
+  } catch (error) {
+    console.error(error);
+
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+}
