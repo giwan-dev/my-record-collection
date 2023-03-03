@@ -10,8 +10,13 @@ import prismaClient from "@/services/prisma";
 
 import { nextAuthOptions } from "./api/auth/[...nextauth]";
 
+type SerializableAlbum = Omit<Album, "createdAt" | "updatedAt"> & {
+  createdAt: string;
+  updatedAt: string;
+};
+
 interface Props {
-  albums: Album[];
+  albums: SerializableAlbum[];
 }
 
 const HEIGHT_RATIO_OF_SPOTIFY_LOGO = 709 / 2362;
@@ -51,7 +56,13 @@ export default function Home({ albums }: Props) {
 
   return (
     <Main>
-      <AlbumGallary albums={albums} />
+      <AlbumGallary
+        albums={albums.map((album) => ({
+          ...album,
+          createdAt: new Date(album.createdAt),
+          updatedAt: new Date(album.updatedAt),
+        }))}
+      />
     </Main>
   );
 }
@@ -68,5 +79,11 @@ export async function getServerSideProps({
 
   const albums = await prismaClient.album.findMany({ where: { userId } });
 
-  return { props: { albums } };
+  const serializableAlbums = albums.map((album) => ({
+    ...album,
+    createdAt: album.createdAt.toISOString(),
+    updatedAt: album.createdAt.toISOString(),
+  }));
+
+  return { props: { albums: serializableAlbums } };
 }
