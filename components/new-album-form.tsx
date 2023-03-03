@@ -25,7 +25,7 @@ export function NewAlbumForm({
 
   const extractValuesFromFormData = (
     formData: FormData,
-  ): ValuesForCreatingAlbum => {
+  ): Pick<ValuesForCreatingAlbum, "title" | "artist" | "physicalForm"> => {
     const title = considerAsString(formData.get(TITLE_INPUT_NAME));
     const artist = considerAsString(formData.get(ARTIST_INPUT_NAME));
     const physicalForm = considerAs(formData.get(PHYSICAL_FORM_INPUT_NAME), [
@@ -38,8 +38,6 @@ export function NewAlbumForm({
       title,
       artist,
       physicalForm,
-      imageUrl: reference?.images[0].url ?? null,
-      spotifyUri: reference?.uri ?? null,
     };
   };
 
@@ -60,11 +58,16 @@ export function NewAlbumForm({
           e.preventDefault();
           const formData = new FormData(e.currentTarget);
 
-          e.currentTarget.reset();
-
           const values = extractValuesFromFormData(formData);
 
-          onSubmit(values);
+          onSubmit({
+            ...values,
+            imageUrl: reference?.images[0].url ?? null,
+            spotifyUri: reference?.uri ?? null,
+          });
+
+          e.currentTarget.reset();
+          setReference(undefined);
         }}
       >
         <Label label="종류">
