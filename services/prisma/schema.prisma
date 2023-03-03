@@ -64,7 +64,7 @@ model VerificationToken {
 model Album {
   id           String       @id @default(cuid())
   title        String
-  artist       String
+  artist       String?
   userId       String
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   physicalForm PhysicalForm
