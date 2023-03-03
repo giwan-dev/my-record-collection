@@ -16,6 +16,64 @@ export function SpotifyAlbumSelect({
   const [keyword, setKeyword] = useState("");
   const deferredKeyword = useDeferredValue(keyword.trim());
   const [suggestions, setSuggestions] = useState<SpotifyAlbum[]>([]);
+  const [focusedIndex, setFocusedIndex] = useState<number>();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionContainerRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "ArrowDown":
+          setFocusedIndex((prev) => {
+            if (prev === undefined) {
+              return 0;
+            }
+
+            const nextValue = prev + 1;
+
+            if (nextValue === suggestions.length) {
+              return 0;
+            }
+            return nextValue;
+          });
+          return;
+        case "ArrowUp":
+          setFocusedIndex((prev) => {
+            if (prev === undefined) {
+              return suggestions.length - 1;
+            }
+
+            const nextValue = prev - 1;
+
+            if (nextValue === -1) {
+              return suggestions.length - 1;
+            }
+            return nextValue;
+          });
+          return;
+        case "Enter":
+          {
+            const album =
+              focusedIndex !== undefined ? suggestions[focusedIndex] : null;
+
+            if (album !== null) {
+              onChange(value?.id !== album.id ? album : null);
+            }
+          }
+          return;
+        case "Escape":
+          setSuggestionsVisible(false);
+          setKeyword("");
+          inputRef.current?.blur();
+          return;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [focusedIndex, onChange, suggestions, value?.id]);
 
   useEffect(() => {
     const fetchAlbums = async (query: string) => {
@@ -35,6 +93,8 @@ export function SpotifyAlbumSelect({
     };
 
     if (deferredKeyword) {
+      setFocusedIndex(undefined);
+      suggestionContainerRef.current?.scrollTo(0, 0);
       void fetchAlbums(deferredKeyword);
     }
   }, [deferredKeyword]);
@@ -55,18 +115,16 @@ export function SpotifyAlbumSelect({
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === "Escape") {
-        setSuggestionsVisible(false);
-        setKeyword("");
-      }
-    };
+    if (focusedIndex === undefined || suggestions.length === 0) {
+      return;
+    }
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+    const target = suggestions[focusedIndex];
+
+    const el = document.getElementById(target.id);
+
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [focusedIndex, suggestions]);
 
   return (
     <section className="relative mb-4 py-2" ref={sectionRef}>
@@ -87,14 +145,27 @@ export function SpotifyAlbumSelect({
         onChange={(e) => {
           setKeyword(e.currentTarget.value);
         }}
+        ref={inputRef}
       />
 
       {suggestionsVisible && (
         <div className="absolute bottom-0 translate-y-full w-full rounded border py-2 shadow-sm bg-white">
           {suggestions.length > 0 ? (
-            <ul className="w-full max-h-60 pl-2 pr-3 overflow-auto gap-y-1">
-              {suggestions.map((suggestion) => (
-                <li key={suggestion.id} className="w-full">
+            <ul
+              className="w-full max-h-60 overflow-auto gap-y-1"
+              ref={suggestionContainerRef}
+            >
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={suggestion.id}
+                  id={suggestion.id}
+                  className={[
+                    "w-full py-1 pl-2 pr-3",
+                    index === focusedIndex ? "bg-stone-100" : undefined,
+                  ]
+                    .filter((x) => !!x)
+                    .join(" ")}
+                >
                   <SpotifyAlbumEntity
                     album={suggestion}
                     selected={suggestion.id === value?.id}
