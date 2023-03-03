@@ -2,7 +2,7 @@ import type { Album } from "@prisma/client";
 import Image from "next/image";
 
 export function Albums({ albums }: { albums: Album[] }) {
-  const imageSize = 300;
+  const imageSize = 320;
 
   return (
     <ul className="grid grid-cols-3 px-2">
@@ -15,7 +15,9 @@ export function Albums({ albums }: { albums: Album[] }) {
               height={imageSize}
               alt={`${album.title} 썸네일`}
             />
-          ) : null}
+          ) : (
+            <div className="w-full aspect-square bg-zinc-300 bg-gradient-to-tr from-zinc-300 to-zinc-100" />
+          )}
 
           <div className="text-xs p-1">
             <div className="flex justify-between items-center">
