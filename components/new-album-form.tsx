@@ -97,7 +97,6 @@ export function NewAlbumForm({
           <Input
             type="text"
             name={ARTIST_INPUT_NAME}
-            required
             defaultValue={reference?.artists[0].name}
           />
         </Label>
