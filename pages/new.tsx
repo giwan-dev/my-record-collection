@@ -1,3 +1,7 @@
+import type { Album } from "@prisma/client";
+import { useEffect, useState } from "react";
+
+import { AlbumList } from "@/components/albums";
 import { Main } from "@/components/main";
 import { NewAlbumForm } from "@/components/new-album-form";
 
@@ -11,9 +15,43 @@ export default function NewAlbumPage() {
     });
   };
 
+  const [albums, setAlbums] = useState<Album[]>([]);
+
+  const fetchAlbums = async () => {
+    const response = await fetch("/api/albums?order=updatedDesc");
+
+    if (response.ok) {
+      const albums = (await response.json()) as Album[];
+
+      setAlbums(albums);
+    }
+  };
+
+  useEffect(() => {
+    void fetchAlbums();
+  }, []);
+
   return (
     <Main>
-      <NewAlbumForm onSubmit={(values) => void postAlbumAndRefetch(values)} />
+      <NewAlbumForm
+        onSubmit={(values) => {
+          void postAlbumAndRefetch(values).then(() => fetchAlbums());
+        }}
+      />
+
+      <AlbumList
+        albums={albums}
+        onDelete={(albumId) => {
+          void fetch(`/api/albums/${albumId}`, { method: "DELETE" }).then(
+            (response) => {
+              if (response.ok) {
+                return fetchAlbums();
+              }
+              // TODO 오류 안내
+            },
+          );
+        }}
+      />
     </Main>
   );
 }
