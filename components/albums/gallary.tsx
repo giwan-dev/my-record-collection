@@ -1,7 +1,7 @@
 import type { Album } from "@prisma/client";
 import Image from "next/image";
 
-export function Albums({ albums }: { albums: Album[] }) {
+export function AlbumGallary({ albums }: { albums: Album[] }) {
   const imageSize = 320;
 
   return (

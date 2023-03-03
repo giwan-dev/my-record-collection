@@ -1,1 +1,1 @@
-export { Albums } from "./albums";
+export { AlbumGallary } from "./gallary";

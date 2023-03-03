@@ -4,7 +4,7 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { signIn, useSession } from "next-auth/react";
 
-import { Albums } from "@/components/albums";
+import { AlbumGallary } from "@/components/albums";
 import { Main } from "@/components/main";
 import prismaClient from "@/services/prisma";
 
@@ -51,7 +51,7 @@ export default function Home({ albums }: Props) {
 
   return (
     <Main>
-      <Albums albums={albums} />
+      <AlbumGallary albums={albums} />
     </Main>
   );
 }
