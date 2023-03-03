@@ -12,15 +12,17 @@ export function AlbumList({
       {albums.map((album) => (
         <li
           key={album.id}
-          className="text-base flex justify-between items-center"
+          className="text-base flex justify-between items-center gap-x-2"
         >
           <div className="text-[8px] tracking-tight text-stone-600 font-bold rounded-sm border px-1">
             {album.physicalForm}
           </div>
+
           <span className="text-lg text-stone-900 font-bold">
             {album.title}
           </span>
-          <span className="text-stone-500"> - {album.artist}</span>
+
+          <span className="text-stone-500">{album.artist}</span>
 
           {onDelete && (
             <button
