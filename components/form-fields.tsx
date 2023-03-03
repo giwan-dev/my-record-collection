@@ -3,6 +3,7 @@ import type {
   InputHTMLAttributes,
   SelectHTMLAttributes,
 } from "react";
+import { forwardRef } from "react";
 
 export function Label({
   label,
@@ -17,10 +18,10 @@ export function Label({
   );
 }
 
-export function Input({
-  className,
-  ...props
-}: InputHTMLAttributes<HTMLInputElement>) {
+export const Input = forwardRef<
+  HTMLInputElement,
+  InputHTMLAttributes<HTMLInputElement>
+>(function _Input({ className, ...props }, ref) {
   return (
     <input
       {...props}
@@ -34,10 +35,10 @@ export function Input({
       ]
         .filter((x) => !!x)
         .join(" ")}
+      ref={ref}
     />
   );
-}
-
+});
 export function Select({
   children,
   className,
