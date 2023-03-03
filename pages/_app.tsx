@@ -11,9 +11,9 @@ export default function MyApp({
 }: AppProps<{ session: Session | null }>) {
   return (
     <SessionProvider session={session}>
-      <Header />
+      <div className="h-full overflow-auto">
+        <Header />
 
-      <div className="mx-auto max-w-3xl">
         <Component {...pageProps} />
       </div>
     </SessionProvider>

@@ -4,5 +4,13 @@ export function Main({
   className,
   children,
 }: PropsWithChildren<{ className?: string }>) {
-  return <main className={[className, "py-10"].join(" ")}>{children}</main>;
+  return (
+    <main
+      className={[className, "mx-auto max-w-3xl py-10 bg-white shadow-sm"].join(
+        " ",
+      )}
+    >
+      {children}
+    </main>
+  );
 }
