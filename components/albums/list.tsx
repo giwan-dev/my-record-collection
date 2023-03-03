@@ -18,15 +18,17 @@ export function AlbumList({
             {album.physicalForm}
           </div>
 
-          <span className="text-lg text-stone-900 font-bold">
+          <span className="text-lg text-stone-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
             {album.title}
           </span>
 
-          <span className="text-stone-500">{album.artist}</span>
+          <span className="text-stone-500 whitespace-nowrap overflow-hidden text-ellipsis">
+            {album.artist}
+          </span>
 
           {onDelete && (
             <button
-              className="ml-auto text-sm rounded-md px-2 py-1 text-stone-500 hover:text-stone-900 hover:bg-stone-200 transition-all active:bg-stone-300"
+              className="flex-shrink-0 ml-auto text-sm rounded-md px-2 py-1 text-stone-500 hover:text-stone-900 hover:bg-stone-200 transition-all active:bg-stone-300"
               type="button"
               onClick={() => {
                 onDelete(album.id);
