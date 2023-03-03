@@ -10,7 +10,7 @@ export function Header() {
       <HeaderNavLink href="/" label="Home" />
 
       {status === "authenticated" && (
-        <HeaderNavLink href="/new" label="New Album" />
+        <HeaderNavLink href="/albums" label="Albums" />
       )}
 
       <div className="ml-auto">
