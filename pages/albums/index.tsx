@@ -41,6 +41,19 @@ export default function NewAlbumPage() {
 
       <AlbumList
         albums={albums}
+        onEdit={(albumId, patch) => {
+          void fetch(`/api/albums/${albumId}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(patch),
+          }).then((response) => {
+            if (response.ok) {
+              return fetchAlbums();
+            }
+          });
+        }}
         onDelete={(albumId) => {
           void fetch(`/api/albums/${albumId}`, { method: "DELETE" }).then(
             (response) => {

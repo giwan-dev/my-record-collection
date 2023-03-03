@@ -1,3 +1,4 @@
+import type { Album } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
@@ -9,7 +10,7 @@ export default async function hander(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method !== "DELETE") {
+  if (req.method !== "DELETE" && req.method !== "PATCH") {
     res.status(405).send("");
     return;
   }
@@ -29,10 +30,21 @@ export default async function hander(
       return;
     }
 
-    await prismaClient.album.delete({
-      where: { id: albumId },
-    });
+    if (req.method === "DELETE") {
+      await prismaClient.album.delete({
+        where: { id: albumId },
+      });
 
+      res.status(204).send("");
+      return;
+    }
+
+    const patch = req.body as Partial<Album>;
+
+    await prismaClient.album.update({
+      where: { id: albumId },
+      data: patch,
+    });
     res.status(204).send("");
   } catch (error) {
     console.error(error);

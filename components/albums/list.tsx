@@ -2,9 +2,11 @@ import type { Album } from "@prisma/client";
 
 export function AlbumList({
   albums,
+  onEdit,
   onDelete,
 }: {
   albums: Album[];
+  onEdit?: (albumId: string, patch: Partial<Album>) => void;
   onDelete?: (albumId: string) => void;
 }) {
   return (
@@ -22,13 +24,24 @@ export function AlbumList({
             {album.title}
           </span>
 
-          <span className="text-stone-500 whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="mr-auto text-stone-500 whitespace-nowrap overflow-hidden text-ellipsis">
             {album.artist}
           </span>
 
+          {onEdit && (
+            <input
+              className="flex-shrink-0"
+              type="checkbox"
+              defaultChecked={album.autographed}
+              onChange={(e) => {
+                onEdit(album.id, { autographed: e.currentTarget.checked });
+              }}
+            />
+          )}
+
           {onDelete && (
             <button
-              className="flex-shrink-0 ml-auto text-sm rounded-md px-2 py-1 text-stone-500 hover:text-stone-900 hover:bg-stone-200 transition-all active:bg-stone-300"
+              className="flex-shrink-0 text-sm rounded-md px-2 py-1 text-stone-500 hover:text-stone-900 hover:bg-stone-200 transition-all active:bg-stone-300"
               type="button"
               onClick={() => {
                 onDelete(album.id);
