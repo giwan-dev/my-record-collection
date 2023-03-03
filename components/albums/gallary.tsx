@@ -21,7 +21,7 @@ export function AlbumGallary({ albums }: { albums: Album[] }) {
 
           <div className="text-xs p-1">
             <div className="flex justify-between items-center">
-              <div className="text-stone-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+              <div className="pr-1 text-stone-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
                 {album.title}
               </div>
 
