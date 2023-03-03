@@ -1,5 +1,5 @@
 import { PhysicalForm } from "@prisma/client";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import type { ValuesForCreatingAlbum } from "@/pages/api/albums";
 import type { SpotifyAlbum } from "@/services/spotify";
@@ -16,6 +16,11 @@ export function NewAlbumForm({
 }: {
   onSubmit: (values: ValuesForCreatingAlbum) => void;
 }) {
+  const [physicalForm, setPhysicalForm] =
+    useStatePersistedWithSession<PhysicalForm>(
+      `new-album-page/${PHYSICAL_FORM_INPUT_NAME}-last-value`,
+      PhysicalForm.VINYL,
+    );
   const [reference, setReference] = useState<SpotifyAlbum>();
 
   const extractValuesFromFormData = (
@@ -79,7 +84,13 @@ export function NewAlbumForm({
         </Label>
 
         <Label label="종류">
-          <Select name={PHYSICAL_FORM_INPUT_NAME}>
+          <Select
+            name={PHYSICAL_FORM_INPUT_NAME}
+            value={physicalForm}
+            onChange={(e) => {
+              setPhysicalForm(e.currentTarget.value as PhysicalForm);
+            }}
+          >
             <option value={PhysicalForm.VINYL}>바이닐</option>
             <option value={PhysicalForm.CD}>CD</option>
             <option value={PhysicalForm.CASSETTE}>카세트</option>
@@ -127,4 +138,42 @@ function considerAsStringOrNull(
   }
 
   return value;
+}
+
+function useStatePersistedWithSession<T extends string>(
+  key: string,
+  initialValue?: T,
+) {
+  const [value, setInnerValue] = useState(initialValue);
+
+  const setValue = useCallback(
+    (params: Parameters<typeof setInnerValue>[0]) => {
+      setInnerValue(params);
+      const nextValue =
+        typeof params === "function"
+          ? params(
+              (window.sessionStorage.getItem(key) as T | null) ?? undefined,
+            )
+          : params;
+
+      if (nextValue) {
+        window.sessionStorage.setItem(key, nextValue);
+      } else {
+        window.sessionStorage.removeItem(key);
+      }
+    },
+    [key],
+  );
+
+  useEffect(() => {
+    const valueFromStorage = window.sessionStorage.getItem(key) as
+      | T
+      | undefined;
+
+    if (initialValue !== valueFromStorage) {
+      setInnerValue(valueFromStorage ?? undefined);
+    }
+  }, [initialValue, key]);
+
+  return [value, setValue] as const;
 }
