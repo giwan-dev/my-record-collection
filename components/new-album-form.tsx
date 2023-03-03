@@ -65,6 +65,20 @@ export function NewAlbumForm({
           onSubmit(values);
         }}
       >
+        <Label label="종류">
+          <Select
+            name={PHYSICAL_FORM_INPUT_NAME}
+            value={physicalForm}
+            onChange={(e) => {
+              setPhysicalForm(e.currentTarget.value as PhysicalForm);
+            }}
+          >
+            <option value={PhysicalForm.VINYL}>바이닐</option>
+            <option value={PhysicalForm.CD}>CD</option>
+            <option value={PhysicalForm.CASSETTE}>카세트</option>
+          </Select>
+        </Label>
+
         <Label label="제목">
           <Input
             type="text"
@@ -81,20 +95,6 @@ export function NewAlbumForm({
             required
             defaultValue={reference?.artists[0].name}
           />
-        </Label>
-
-        <Label label="종류">
-          <Select
-            name={PHYSICAL_FORM_INPUT_NAME}
-            value={physicalForm}
-            onChange={(e) => {
-              setPhysicalForm(e.currentTarget.value as PhysicalForm);
-            }}
-          >
-            <option value={PhysicalForm.VINYL}>바이닐</option>
-            <option value={PhysicalForm.CD}>CD</option>
-            <option value={PhysicalForm.CASSETTE}>카세트</option>
-          </Select>
         </Label>
 
         <button
