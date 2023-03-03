@@ -10,6 +10,7 @@ export function AlbumGallary({ albums }: { albums: Album[] }) {
         <li key={album.id} className="flex flex-col pb-4">
           {album.imageUrl ? (
             <Image
+              className="aspect-square object-contain"
               src={album.imageUrl}
               width={imageSize}
               height={imageSize}
