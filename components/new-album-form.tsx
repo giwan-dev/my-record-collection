@@ -88,7 +88,7 @@ export function NewAlbumForm({
 
         <button
           type="submit"
-          className="bg-emerald-500 text-neutral-50 px-4 py-2 rounded-xl text-sm"
+          className="bg-orange-600 text-neutral-50 px-4 py-2 rounded-xl text-sm"
         >
           등록
         </button>
