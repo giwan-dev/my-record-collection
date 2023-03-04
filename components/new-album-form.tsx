@@ -1,6 +1,7 @@
 import { PhysicalForm } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
 
+import { createPalette, getTheme } from "@/common/palette";
 import type { ValuesForCreatingAlbum } from "@/pages/api/albums";
 import type { SpotifyAlbum } from "@/services/spotify";
 
@@ -41,6 +42,23 @@ export function NewAlbumForm({
     };
   };
 
+  const handleSubmit = async (
+    values: ReturnType<typeof extractValuesFromFormData>,
+  ) => {
+    const imageUrl = reference?.images[0].url ?? null;
+
+    const palette = imageUrl ? await createPalette(imageUrl) : [];
+    const paletteTheme = palette.length ? getTheme(palette) : "light";
+
+    onSubmit({
+      ...values,
+      imageUrl,
+      spotifyUri: reference?.uri ?? null,
+      palette,
+      paletteTheme,
+    });
+  };
+
   return (
     <section className="px-4">
       <h2 className="font-bold">새로운 앨범 등록</h2>
@@ -60,14 +78,10 @@ export function NewAlbumForm({
 
           const values = extractValuesFromFormData(formData);
 
-          onSubmit({
-            ...values,
-            imageUrl: reference?.images[0].url ?? null,
-            spotifyUri: reference?.uri ?? null,
+          void handleSubmit(values).then(() => {
+            e.currentTarget.reset();
+            setReference(undefined);
           });
-
-          e.currentTarget.reset();
-          setReference(undefined);
         }}
       >
         <Label label="종류">
