@@ -6,9 +6,9 @@ export function Main({
 }: PropsWithChildren<{ className?: string }>) {
   return (
     <main
-      className={[className, "mx-auto max-w-3xl py-10 bg-white shadow-sm"].join(
-        " ",
-      )}
+      className={[className, "mx-auto max-w-3xl py-10 bg-white shadow-sm"]
+        .filter((x) => !!x)
+        .join(" ")}
     >
       {children}
     </main>
