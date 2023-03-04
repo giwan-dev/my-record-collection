@@ -2,6 +2,7 @@ import type { Album, Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
+import { createPalette, getTheme } from "@/common/palette";
 import prismaClient from "@/services/prisma";
 
 import { nextAuthOptions } from "../auth/[...nextauth]";
@@ -36,7 +37,14 @@ export default async function handler(
 
       const data = JSON.parse(req.body) as ValuesForCreatingAlbum;
 
-      await prismaClient.album.create({ data: { ...data, userId } });
+      const palette = data.imageUrl
+        ? await createPalette(data.imageUrl)
+        : undefined;
+      const paletteTheme = palette ? getTheme(palette) : undefined;
+
+      await prismaClient.album.create({
+        data: { ...data, userId, palette, paletteTheme },
+      });
       res.status(200).send("");
       return;
     }
@@ -72,7 +80,8 @@ type AlbumSummaryKeys =
   | "artist"
   | "physicalForm"
   | "imageUrl"
-  | "autographed";
+  | "autographed"
+  | "palette";
 
 export type AlbumSummary = Pick<Album, AlbumSummaryKeys>;
 
@@ -83,6 +92,7 @@ const getAlbumsSelect: Record<AlbumSummaryKeys, true> = {
   physicalForm: true,
   imageUrl: true,
   autographed: true,
+  palette: true,
 };
 
 export async function getAlbums({
