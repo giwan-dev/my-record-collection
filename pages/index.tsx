@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { signIn, useSession } from "next-auth/react";
 
-import { AlbumGallary } from "@/components/albums";
+import { AlbumStack } from "@/components/albums";
 import { Main } from "@/components/main";
 
 import type { AlbumSummary } from "./api/albums";
@@ -51,7 +51,7 @@ export default function Home({ albums }: Props) {
 
   return (
     <Main>
-      <AlbumGallary albums={albums} />
+      <AlbumStack albums={albums} />
     </Main>
   );
 }
@@ -66,7 +66,7 @@ export async function getServerSideProps({
     return { props: { albums: [] } };
   }
 
-  const albums = await getAlbums({ userId });
+  const albums = await getAlbums({ userId, order: "createdDesc" });
 
   return { props: { albums } };
 }
