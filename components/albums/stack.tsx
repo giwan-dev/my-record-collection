@@ -25,7 +25,7 @@ export function AlbumStack({
             ? `linear-gradient(135deg, ${album.palette
                 .map((color, index) => `${color} ${index * 25}%`)
                 .join(", ")})`
-            : "rgba(28, 25, 23, 0.8)";
+            : undefined;
 
         const textColors = {
           dark: "text-stone-50",
