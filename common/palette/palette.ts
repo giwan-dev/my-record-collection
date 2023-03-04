@@ -1,11 +1,25 @@
-import { createCanvas, loadImage } from "canvas";
-
 import { rgbToHex } from "./color";
 
 export async function createPalette(imageUrl: string): Promise<string[]> {
-  const image = await loadImage(imageUrl);
-  const canvas = createCanvas(image.width, image.height);
+  const image = await new Promise<HTMLImageElement>((resolve) => {
+    const image = new Image();
+    image.src = imageUrl;
+    image.crossOrigin = "anonymous";
+    image.onload = () => {
+      resolve(image);
+    };
+  });
+  const canvas = document.createElement("canvas");
+
+  canvas.width = image.width;
+  canvas.height = image.height;
+
   const context = canvas.getContext("2d");
+
+  if (context === null) {
+    throw new Error("Fail to create canvas context");
+  }
+
   context.drawImage(image, 0, 0);
   const uint8ClampedArray = context.getImageData(
     0,

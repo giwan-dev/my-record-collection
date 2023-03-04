@@ -4,6 +4,7 @@ import NextImage from "next/image";
 import { getServerSession } from "next-auth";
 import { useState } from "react";
 
+import { createPalette, getTheme } from "@/common/palette";
 import { Main } from "@/components/main";
 import prismaClient from "@/services/prisma";
 
@@ -35,18 +36,23 @@ export default function AlbumDetailPage({ album: initialAlbum }: Props) {
     ? textColors[album.paletteTheme as "dark" | "light"]
     : undefined;
 
-  const putPalette = () => {
-    void fetch(`/api/albums/${album.id}/palette`, { method: "PUT" })
-      .then(async (response) => {
-        const { palette, paletteTheme } = (await response.json()) as Pick<
-          Album,
-          "palette" | "paletteTheme"
-        >;
-        setAlbum((prev) => ({ ...prev, palette, paletteTheme }));
-      })
-      .catch((error) => {
-        alert(error);
+  const patchPalette = async (imageUrl: string) => {
+    try {
+      const palette = await createPalette(imageUrl);
+      const paletteTheme = getTheme(palette);
+      const response = await fetch(`/api/albums/${album.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ palette, paletteTheme }),
       });
+      if (response.ok) {
+        setAlbum((prev) => ({ ...prev, palette, paletteTheme }));
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -85,7 +91,11 @@ export default function AlbumDetailPage({ album: initialAlbum }: Props) {
             <button
               type="button"
               className="border-2 rounded-xl px-6 py-2 text-lg border-stone-500 bg-stone-50 text-stone-800 hover:border-stone-600 hover:bg-stone-200 active:border-stone-700 active:bg-stone-300 transition-all font-medium"
-              onClick={putPalette}
+              onClick={() => {
+                if (album.imageUrl) {
+                  void patchPalette(album.imageUrl);
+                }
+              }}
             >
               팔레트 업데이트
             </button>
