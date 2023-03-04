@@ -73,6 +73,7 @@ model Album {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @default(now()) @updatedAt
   autographed  Boolean      @default(false)
+  palette      String[]
 }
 
 enum PhysicalForm {
