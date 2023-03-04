@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "prettier": "prettier --write .",
     "prepare": "husky install",
-    "lint-staged": "lint-staged",
     "prisma:db-push": "prisma db push --schema services/prisma/schema.prisma",
     "prisma:studio": "prisma studio --schema services/prisma/schema.prisma",
     "prisma:generate": "prisma generate --schema services/prisma/schema.prisma"
