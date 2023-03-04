@@ -4,11 +4,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 export function Header() {
   const { status } = useSession();
-  const { pathname } = useRouter();
-
-  if (!["/", "/albums"].includes(pathname)) {
-    return null;
-  }
 
   return (
     <nav className="py-2 px-4 border-b-2 border-stone-50 shadow-sm sticky top-0 bg-white flex justify-between items-center gap-x-2 z-10">
