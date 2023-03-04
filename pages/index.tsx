@@ -17,7 +17,7 @@ interface Props {
 const HEIGHT_RATIO_OF_SPOTIFY_LOGO = 709 / 2362;
 
 export default function Home({ albums }: Props) {
-  const { status } = useSession();
+  const { status, data: session } = useSession();
 
   if (status === "unauthenticated") {
     const width = 120;
@@ -52,6 +52,24 @@ export default function Home({ albums }: Props) {
   return (
     <Main>
       <AlbumStack albums={albums} />
+
+      {session?.userId && (
+        <div className="fixed bottom-0 right-0 p-4">
+          <button
+            type="button"
+            className="rounded-xl px-4 py-2 text-sm font-medium bg-stone-800 text-stone-50 opacity-70"
+            onClick={() => {
+              const url = new URL(
+                `/users/${session.userId}`,
+                window.location.href,
+              );
+              void navigator.clipboard.writeText(url.toString());
+            }}
+          >
+            공유하기
+          </button>
+        </div>
+      )}
     </Main>
   );
 }
