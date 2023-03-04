@@ -6,8 +6,8 @@ import { signIn, useSession } from "next-auth/react";
 import { AlbumGallary } from "@/components/albums";
 import type { AlbumSummary } from "@/components/albums/gallary";
 import { Main } from "@/components/main";
-import prismaClient from "@/services/prisma";
 
+import { getAlbums } from "./api/albums";
 import { nextAuthOptions } from "./api/auth/[...nextauth]";
 
 interface Props {
@@ -66,16 +66,7 @@ export async function getServerSideProps({
     return { props: { albums: [] } };
   }
 
-  const albums = await prismaClient.album.findMany({
-    select: {
-      artist: true,
-      id: true,
-      imageUrl: true,
-      physicalForm: true,
-      title: true,
-    },
-    where: { userId },
-  });
+  const albums = await getAlbums({ userId });
 
   return { props: { albums } };
 }

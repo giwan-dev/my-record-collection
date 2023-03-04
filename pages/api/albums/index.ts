@@ -11,13 +11,6 @@ export type ValuesForCreatingAlbum = Pick<
   "title" | "artist" | "imageUrl" | "physicalForm" | "spotifyUri"
 >;
 
-export type OrderType = "createdDesc" | "updatedDesc";
-
-const orderByMap: Record<OrderType, Prisma.AlbumOrderByWithRelationInput> = {
-  createdDesc: { createdAt: "desc" },
-  updatedDesc: { updatedAt: "desc" },
-};
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -54,11 +47,7 @@ export default async function handler(
       res.status(400).json({ error: "Invalid query format" });
       return;
     }
-
-    const albums = await prismaClient.album.findMany({
-      where: { userId },
-      orderBy: order ? [orderByMap[order as OrderType]] : undefined,
-    });
+    const albums = await getAlbums({ userId, order: order as OrderType });
 
     res.status(200).json(albums);
   } catch (error) {
@@ -68,4 +57,31 @@ export default async function handler(
       res.status(500).json({ error: error.message });
     }
   }
+}
+
+export type OrderType = "createdDesc" | "updatedDesc";
+
+const orderByMap: Record<OrderType, Prisma.AlbumOrderByWithRelationInput> = {
+  createdDesc: { createdAt: "desc" },
+  updatedDesc: { updatedAt: "desc" },
+};
+
+export async function getAlbums({
+  userId,
+  order,
+}: {
+  userId: string;
+  order?: OrderType;
+}) {
+  return await prismaClient.album.findMany({
+    select: {
+      artist: true,
+      id: true,
+      imageUrl: true,
+      physicalForm: true,
+      title: true,
+    },
+    where: { userId },
+    orderBy: order ? [orderByMap[order]] : undefined,
+  });
 }
