@@ -4,9 +4,9 @@ import { getServerSession } from "next-auth";
 import { signIn, useSession } from "next-auth/react";
 
 import { AlbumGallary } from "@/components/albums";
-import type { AlbumSummary } from "@/components/albums/gallary";
 import { Main } from "@/components/main";
 
+import type { AlbumSummary } from "./api/albums";
 import { getAlbums } from "./api/albums";
 import { nextAuthOptions } from "./api/auth/[...nextauth]";
 

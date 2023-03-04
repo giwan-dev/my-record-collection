@@ -1,11 +1,10 @@
-import type { Album } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 import { AlbumList } from "@/components/albums";
 import { Main } from "@/components/main";
 import { NewAlbumForm } from "@/components/new-album-form";
 
-import type { ValuesForCreatingAlbum } from "../api/albums";
+import type { AlbumSummary, ValuesForCreatingAlbum } from "../api/albums";
 
 export default function NewAlbumPage() {
   const postAlbumAndRefetch = async (values: ValuesForCreatingAlbum) => {
@@ -15,13 +14,15 @@ export default function NewAlbumPage() {
     });
   };
 
-  const [albums, setAlbums] = useState<Album[]>([]);
+  const [albums, setAlbums] = useState<
+    Parameters<typeof AlbumList>[0]["albums"]
+  >([]);
 
   const fetchAlbums = async () => {
     const response = await fetch("/api/albums?order=createdDesc");
 
     if (response.ok) {
-      const albums = (await response.json()) as Album[];
+      const albums = (await response.json()) as AlbumSummary[];
 
       setAlbums(albums);
     }

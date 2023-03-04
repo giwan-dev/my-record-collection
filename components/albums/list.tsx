@@ -5,8 +5,11 @@ export function AlbumList({
   onEdit,
   onDelete,
 }: {
-  albums: Album[];
-  onEdit?: (albumId: string, patch: Partial<Album>) => void;
+  albums: Pick<
+    Album,
+    "id" | "physicalForm" | "title" | "artist" | "autographed"
+  >[];
+  onEdit?: (albumId: string, patch: Pick<Album, "autographed">) => void;
   onDelete?: (albumId: string) => void;
 }) {
   return (

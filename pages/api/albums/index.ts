@@ -66,6 +66,25 @@ const orderByMap: Record<OrderType, Prisma.AlbumOrderByWithRelationInput> = {
   updatedDesc: { updatedAt: "desc" },
 };
 
+type AlbumSummaryKeys =
+  | "id"
+  | "title"
+  | "artist"
+  | "physicalForm"
+  | "imageUrl"
+  | "autographed";
+
+export type AlbumSummary = Pick<Album, AlbumSummaryKeys>;
+
+const getAlbumsSelect: Record<AlbumSummaryKeys, true> = {
+  id: true,
+  title: true,
+  artist: true,
+  physicalForm: true,
+  imageUrl: true,
+  autographed: true,
+};
+
 export async function getAlbums({
   userId,
   order,
@@ -74,13 +93,7 @@ export async function getAlbums({
   order?: OrderType;
 }) {
   return await prismaClient.album.findMany({
-    select: {
-      artist: true,
-      id: true,
-      imageUrl: true,
-      physicalForm: true,
-      title: true,
-    },
+    select: getAlbumsSelect,
     where: { userId },
     orderBy: order ? [orderByMap[order]] : undefined,
   });
