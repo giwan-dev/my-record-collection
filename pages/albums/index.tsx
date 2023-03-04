@@ -18,7 +18,7 @@ export default function NewAlbumPage() {
   const [albums, setAlbums] = useState<Album[]>([]);
 
   const fetchAlbums = async () => {
-    const response = await fetch("/api/albums?order=updatedDesc");
+    const response = await fetch("/api/albums?order=createdDesc");
 
     if (response.ok) {
       const albums = (await response.json()) as Album[];
