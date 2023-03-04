@@ -12,7 +12,7 @@ function getTextColor(bgColor: string) {
   const whiteContrast = getContrast(bgColor, "#ffffff");
   const blackContrast = getContrast(bgColor, "#000000");
 
-  return whiteContrast > blackContrast ? "light" : "dark";
+  return whiteContrast < blackContrast ? "light" : "dark";
 }
 
 function getContrast(f: string, b: string) {
