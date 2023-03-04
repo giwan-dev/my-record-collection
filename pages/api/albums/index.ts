@@ -49,6 +49,7 @@ export default async function handler(
     }
 
     const orderByMap: Record<string, Prisma.AlbumOrderByWithRelationInput> = {
+      createdDesc: { createdAt: "desc" },
       updatedDesc: { updatedAt: "desc" },
     };
 
