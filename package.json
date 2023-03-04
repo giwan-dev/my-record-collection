@@ -12,8 +12,7 @@
     "lint-staged": "lint-staged",
     "prisma:db-push": "prisma db push --schema services/prisma/schema.prisma",
     "prisma:studio": "prisma studio --schema services/prisma/schema.prisma",
-    "prisma:generate": "prisma generate --schema services/prisma/schema.prisma",
-    "vercel-build": "yum install libuuid-devel libmount-devel && cp /lib64/{libuuid,libmount,libblkid}.so.1 node_modules/canvas/build/Release/ && next build"
+    "prisma:generate": "prisma generate --schema services/prisma/schema.prisma"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
