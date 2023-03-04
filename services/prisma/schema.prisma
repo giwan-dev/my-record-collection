@@ -74,7 +74,7 @@ model Album {
   updatedAt    DateTime     @default(now()) @updatedAt
   autographed  Boolean      @default(false)
   palette      String[]
-  textColor    String       @default("#ffffff")
+  paletteTheme String       @default("dark")
 }
 
 enum PhysicalForm {
