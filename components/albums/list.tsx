@@ -1,4 +1,5 @@
 import type { Album } from "@prisma/client";
+import Link from "next/link";
 
 export function AlbumList({
   albums,
@@ -23,13 +24,19 @@ export function AlbumList({
             {album.physicalForm}
           </div>
 
-          <span className="text-lg text-stone-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+          <Link
+            href={`/albums/${album.id}`}
+            className="text-lg text-stone-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis"
+          >
             {album.title}
-          </span>
+          </Link>
 
-          <span className="mr-auto text-stone-500 whitespace-nowrap overflow-hidden text-ellipsis">
+          <Link
+            href={`/albums/${album.id}`}
+            className="mr-auto text-stone-500 whitespace-nowrap overflow-hidden text-ellipsis"
+          >
             {album.artist}
-          </span>
+          </Link>
 
           {onEdit && (
             <input
