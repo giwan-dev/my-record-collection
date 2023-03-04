@@ -11,6 +11,13 @@ export type ValuesForCreatingAlbum = Pick<
   "title" | "artist" | "imageUrl" | "physicalForm" | "spotifyUri"
 >;
 
+export type OrderType = "createdDesc" | "updatedDesc";
+
+const orderByMap: Record<OrderType, Prisma.AlbumOrderByWithRelationInput> = {
+  createdDesc: { createdAt: "desc" },
+  updatedDesc: { updatedAt: "desc" },
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -48,14 +55,9 @@ export default async function handler(
       return;
     }
 
-    const orderByMap: Record<string, Prisma.AlbumOrderByWithRelationInput> = {
-      createdDesc: { createdAt: "desc" },
-      updatedDesc: { updatedAt: "desc" },
-    };
-
     const albums = await prismaClient.album.findMany({
       where: { userId },
-      orderBy: order ? [orderByMap[order]] : undefined,
+      orderBy: order ? [orderByMap[order as OrderType]] : undefined,
     });
 
     res.status(200).json(albums);
