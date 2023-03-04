@@ -1,6 +1,7 @@
 import type { Album } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 
 export function AlbumStack({
@@ -67,6 +68,7 @@ function AlbumAccordion({
   >;
   initialOpen?: boolean;
 }) {
+  const { status } = useSession();
   const [open, setOpen] = useState(initialOpen);
   const detailsRef = useRef<HTMLDetailsElement>(null);
   const imageSize = 320;
@@ -120,8 +122,11 @@ function AlbumAccordion({
         ) : (
           <div className="w-80 aspect-square bg-gradient-to-tr from-stone-300 to-stone-100" />
         )}
+
         <div>
-          <Link href={`/albums/${album.id}`}>편집</Link>
+          {status === "authenticated" && (
+            <Link href={`/albums/${album.id}`}>편집</Link>
+          )}
         </div>
       </div>
     </details>
