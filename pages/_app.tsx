@@ -14,12 +14,7 @@ export default function MyApp({
 }: AppProps<{ session: Session | null }>) {
   return (
     <SessionProvider session={session}>
-      <div
-        className={[
-          "h-full overflow-auto bg-stone-50",
-          pretendard.className,
-        ].join(" ")}
-      >
+      <div className={["bg-stone-50 pb-10", pretendard.className].join(" ")}>
         <Header />
 
         <Component {...pageProps} />
