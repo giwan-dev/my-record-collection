@@ -81,7 +81,8 @@ type AlbumSummaryKeys =
   | "physicalForm"
   | "imageUrl"
   | "autographed"
-  | "palette";
+  | "palette"
+  | "paletteTheme";
 
 export type AlbumSummary = Pick<Album, AlbumSummaryKeys>;
 
@@ -93,6 +94,7 @@ const getAlbumsSelect: Record<AlbumSummaryKeys, true> = {
   imageUrl: true,
   autographed: true,
   palette: true,
+  paletteTheme: true,
 };
 
 export async function getAlbums({
