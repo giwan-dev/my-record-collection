@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 
+import { Gradieted } from "../gradiented";
+
 export function AlbumStack({
   albums,
 }: {
@@ -20,34 +22,16 @@ export function AlbumStack({
 }) {
   return (
     <ul>
-      {albums.map((album) => {
-        const gradient =
-          album.palette.length > 0
-            ? `linear-gradient(135deg, ${album.palette
-                .map((color, index) => `${color} ${index * 25}%`)
-                .join(", ")})`
-            : undefined;
-
-        const textColors = {
-          dark: "text-stone-50",
-          light: "text-stone-900",
-        };
-
-        return (
-          <li
-            key={album.id}
-            className={[
-              textColors[album.paletteTheme as "dark" | "light"],
-              "text-opacity-80",
-            ].join(" ")}
-            style={{
-              background: gradient,
-            }}
+      {albums.map((album) => (
+        <li key={album.id}>
+          <Gradieted
+            palette={album.palette}
+            paletteTheme={album.paletteTheme as "light" | "dark"}
           >
             <AlbumAccordion album={album} />
-          </li>
-        );
-      })}
+          </Gradieted>
+        </li>
+      ))}
     </ul>
   );
 }

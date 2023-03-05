@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { useState } from "react";
 
 import { createPalette, getTheme } from "@/common/palette";
+import { Gradieted } from "@/components/gradiented";
 import { Main } from "@/components/main";
 import prismaClient from "@/services/prisma";
 
@@ -17,24 +18,9 @@ interface Props {
   };
 }
 
-const textColors = {
-  dark: "rgb(250, 250, 249)", // stone-50
-  light: "rgb(28, 25, 23)", // stone-900
-};
-
 export default function AlbumDetailPage({ album: initialAlbum }: Props) {
   const imageSize = 320;
   const [album, setAlbum] = useState(initialAlbum);
-
-  const gradient =
-    album.palette.length > 0
-      ? `linear-gradient(90deg, ${album.palette
-          .map((color, index) => `${color} ${index * 25}%`)
-          .join(", ")})`
-      : undefined;
-  const textColor = album.paletteTheme
-    ? textColors[album.paletteTheme as "dark" | "light"]
-    : undefined;
 
   const patchPalette = async (imageUrl: string) => {
     try {
@@ -58,7 +44,11 @@ export default function AlbumDetailPage({ album: initialAlbum }: Props) {
   return (
     <Main>
       {album.imageUrl && (
-        <div className="p-2 flex gap-x-4">
+        <Gradieted
+          className="p-2 flex gap-x-4"
+          palette={album.palette}
+          paletteTheme={album.paletteTheme as "light" | "dark"}
+        >
           <NextImage
             className="aspect-square object-contain"
             src={album.imageUrl}
@@ -68,10 +58,7 @@ export default function AlbumDetailPage({ album: initialAlbum }: Props) {
           />
 
           <div className="flex-grow flex flex-col gap-y-1">
-            <div
-              className="w-full px-4 py-1 flex justify-center items-center gap-x-2"
-              style={{ background: gradient, color: textColor }}
-            >
+            <div className="w-full px-4 py-1 flex justify-center items-center gap-x-2">
               <span className="text-lg font-medium">{album.title}</span>
               <span className="text-sm opacity-60">{album.artist}</span>
             </div>
@@ -100,7 +87,7 @@ export default function AlbumDetailPage({ album: initialAlbum }: Props) {
               팔레트 업데이트
             </button>
           </div>
-        </div>
+        </Gradieted>
       )}
     </Main>
   );
