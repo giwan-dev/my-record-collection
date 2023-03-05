@@ -14,7 +14,7 @@ export default function MyApp({
 }: AppProps<{ session: Session | null }>) {
   return (
     <SessionProvider session={session}>
-      <div className={["bg-stone-50 pb-10", pretendard.className].join(" ")}>
+      <div className={pretendard.className}>
         <Header />
 
         <Component {...pageProps} />

@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply bg-stone-50;
+  }
+
   details > summary::-webkit-details-marker {
     @apply hidden;
   }
