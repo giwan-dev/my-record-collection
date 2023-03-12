@@ -78,6 +78,17 @@ function AlbumAccordion({
     }
   }, [open]);
 
+  useEffect(() => {
+    if (open && defferedOpen) {
+      window.requestAnimationFrame(() => {
+        detailsRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      });
+    }
+  }, [defferedOpen, open]);
+
   return (
     <div className="rounded border p-1" ref={detailsRef}>
       <button
