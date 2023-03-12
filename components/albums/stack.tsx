@@ -95,9 +95,13 @@ function AlbumAccordion({
           }
         }}
       >
-        <Gradieted className="w-fit" palette={album.palette} animate={open}>
-          <div className="text-lg font-bold">{album.title}</div>
-          <div className="text-sm font-medium">{album.artist}</div>
+        <Gradieted palette={album.palette} animate={open}>
+          <div className="relative text-lg font-bold overflow-hidden whitespace-nowrap after:absolute after:top-0 after:right-0 after:w-6 after:h-full after:bg-gradient-to-r after:from-transparent after:to-white">
+            {album.title}
+          </div>
+          <div className="text-sm font-medium overflow-hidden whitespace-nowrap  after:absolute after:top-0 after:right-0 after:w-6 after:h-full after:bg-gradient-to-r after:from-transparent after:to-white">
+            {album.artist}
+          </div>
         </Gradieted>
       </button>
 
