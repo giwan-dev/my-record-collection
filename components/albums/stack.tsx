@@ -48,7 +48,6 @@ function AlbumAccordion({
   const [open, setOpen] = useState(!!initialOpen);
   const [defferedOpen, setDefferedOpen] = useState(open);
   const detailsRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<NodeJS.Timeout>();
   const imageSize = 320;
 
   useEffect(() => {
@@ -59,15 +58,8 @@ function AlbumAccordion({
         }
 
         if (!detailsRef.current?.contains(e.target as Node)) {
-          if (timerRef.current) {
-            clearTimeout(timerRef.current);
-          }
-
           setDefferedOpen(false);
-
-          timerRef.current = setTimeout(() => {
-            setOpen(false);
-          }, 150);
+          setTimeoutWithRaf(() => setOpen(false), 150);
         }
       };
 
@@ -94,22 +86,12 @@ function AlbumAccordion({
       <button
         className="w-full rounded-lg px-2 py-1 text-left hover:bg-stone-100 active:bg-stone-200"
         onClick={() => {
-          if (timerRef.current) {
-            clearTimeout(timerRef.current);
-          }
-
           if (open) {
             setDefferedOpen(false);
-
-            timerRef.current = setTimeout(() => {
-              setOpen(false);
-            }, 150);
+            setTimeoutWithRaf(() => setOpen(false), 150);
           } else {
             setOpen(true);
-
-            timerRef.current = setTimeout(() => {
-              setDefferedOpen(true);
-            }, 150);
+            setTimeoutWithRaf(() => setDefferedOpen(true), 150);
           }
         }}
       >
@@ -145,4 +127,25 @@ function AlbumAccordion({
       )}
     </div>
   );
+}
+
+function setTimeoutWithRaf(callback: () => void, timeout: number) {
+  let startTimestamp: number | null = null;
+
+  const handleAnimationFrame = (timestamp: number) => {
+    if (startTimestamp === null) {
+      startTimestamp = timestamp;
+      window.requestAnimationFrame(handleAnimationFrame);
+      return;
+    }
+
+    if (timestamp - startTimestamp < timeout) {
+      window.requestAnimationFrame(handleAnimationFrame);
+      return;
+    }
+
+    callback();
+  };
+
+  window.requestAnimationFrame(handleAnimationFrame);
 }
