@@ -1,7 +1,5 @@
 import type { Album } from "@prisma/client";
 import Image from "next/image";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 
 import { Gradieted } from "../gradiented";
@@ -21,15 +19,10 @@ export function AlbumStack({
   >[];
 }) {
   return (
-    <ul>
+    <ul className="px-4 py-4 flex flex-col gap-y-2">
       {albums.map((album) => (
         <li key={album.id}>
-          <Gradieted
-            palette={album.palette}
-            paletteTheme={album.paletteTheme as "light" | "dark"}
-          >
-            <AlbumAccordion album={album} />
-          </Gradieted>
+          <AlbumAccordion album={album} />
         </li>
       ))}
     </ul>
@@ -52,7 +45,6 @@ function AlbumAccordion({
   >;
   initialOpen?: boolean;
 }) {
-  const { status } = useSession();
   const [open, setOpen] = useState(initialOpen);
   const detailsRef = useRef<HTMLDetailsElement>(null);
   const imageSize = 320;
@@ -78,26 +70,24 @@ function AlbumAccordion({
 
   return (
     <details
+      className="rounded border p-2 overflow-hidden"
       open={open}
       onToggle={(e) => {
         setOpen(e.currentTarget.open);
       }}
       ref={detailsRef}
     >
-      <summary className="px-4 py-1 flex justify-center items-center gap-x-2 text-lg font-medium cursor-pointer transition-all">
-        <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-          {album.title}
-        </span>
-
-        <span className="opacity-80 text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-          {album.artist}
-        </span>
+      <summary className="cursor-pointer block">
+        <Gradieted className="w-fit" palette={album.palette}>
+          <div className="text-lg font-bold">{album.title}</div>
+          <div className="text-sm font-medium">{album.artist}</div>
+        </Gradieted>
       </summary>
 
-      <div className="p-2 flex gap-x-2">
+      <div className="mt-3 w-full flex justify-center">
         {album.imageUrl ? (
           <Image
-            className="aspect-square object-contain"
+            className="w-full aspect-square object-contain"
             src={album.imageUrl}
             width={imageSize}
             height={imageSize}
@@ -106,12 +96,6 @@ function AlbumAccordion({
         ) : (
           <div className="w-80 aspect-square bg-gradient-to-tr from-stone-300 to-stone-100" />
         )}
-
-        <div>
-          {status === "authenticated" && (
-            <Link href={`/albums/${album.id}`}>편집</Link>
-          )}
-        </div>
       </div>
     </details>
   );
