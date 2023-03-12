@@ -1,4 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run build
+if [[ $(git diff --stat) != '' ]]; then
+  echo "Working Tree를 비우고 다시 시도하세요."
+else
+  npm run build
+fi
