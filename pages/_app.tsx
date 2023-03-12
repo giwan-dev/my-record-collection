@@ -4,7 +4,6 @@ import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
 import "@/common/global.css";
-import { Header } from "@/components/header";
 
 const pretendard = localFont({ src: "./PretendardVariable.woff2" });
 
@@ -15,8 +14,6 @@ export default function MyApp({
   return (
     <SessionProvider session={session}>
       <div className={pretendard.className}>
-        <Header />
-
         <Component {...pageProps} />
       </div>
     </SessionProvider>
