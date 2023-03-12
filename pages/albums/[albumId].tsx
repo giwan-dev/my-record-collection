@@ -35,7 +35,7 @@ export default function AlbumDetailPage({ album: initialAlbum }: Props) {
         <Gradieted
           className="p-2 flex gap-x-4"
           palette={album.palette}
-          paletteTheme={album.paletteTheme as "light" | "dark"}
+          animate={false}
         >
           <NextImage
             className="aspect-square object-contain"
