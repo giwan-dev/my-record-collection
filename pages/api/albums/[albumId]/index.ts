@@ -41,11 +41,11 @@ export default async function hander(
 
     const patch = req.body as Partial<Album>;
 
-    await prismaClient.album.update({
+    const album = await prismaClient.album.update({
       where: { id: albumId },
       data: patch,
     });
-    res.status(204).send("");
+    res.status(200).json(album);
   } catch (error) {
     console.error(error);
 
