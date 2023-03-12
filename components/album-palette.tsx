@@ -15,33 +15,65 @@ export function AlbumPalette({
   onChange: (newAlbum: Pick<Album, "palette" | "paletteTheme">) => void;
 }) {
   const [calculating, setCalculating] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(
+    imageUrl !== null && new Set(palette).size < 4
+      ? "팔레트가 모자랍니다."
+      : undefined,
+  );
 
-  const patchPalette = async (imageUrl: string) => {
+  const createPaletteAndTheme = async (imageUrl: string) => {
     try {
       const palette = await createPalette(imageUrl, albumId);
       const paletteTheme = getTheme(palette);
-      const response = await fetch(`/api/albums/${albumId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ palette, paletteTheme }),
-      });
 
-      if (response.ok) {
-        onChange({ palette, paletteTheme });
-        setError(false);
-        return;
-      }
-
-      throw new Error(
-        `Fail to fetch PATCH /albums/${albumId}: ${response.status}`,
-      );
+      return { palette, paletteTheme };
     } catch (error) {
-      console.error(error);
-      setError(true);
+      return null;
     }
+  };
+
+  const patchAlbum = async (
+    albumPatch: Pick<Album, "palette" | "paletteTheme">,
+  ) => {
+    const response = await fetch(`/api/albums/${albumId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(albumPatch),
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return (await response.json()) as Album;
+  };
+
+  const handleRefresh = async (imageUrl: string) => {
+    const paletteAndTheme = await createPaletteAndTheme(imageUrl);
+
+    if (paletteAndTheme === null) {
+      setError("팔레트를 만들지 못했습니다. 다시 시도해 주세요.");
+      return;
+    }
+
+    if (new Set(paletteAndTheme.palette).size < 4) {
+      setError(
+        "4개보다 적은 수의 팔레트가 만들어졌습니다. 다시 시도해 주세요.",
+      );
+      return;
+    }
+
+    const album = await patchAlbum(paletteAndTheme);
+
+    if (album === null) {
+      setError("생성한 팔레트를 저장하지 못했습니다. 다시 시도해 주세요.");
+      return;
+    }
+
+    onChange(paletteAndTheme);
+    setError(undefined);
   };
 
   if (imageUrl === null) {
@@ -66,7 +98,7 @@ export function AlbumPalette({
           className="rounded-xl px-2 py-1 hover:bg-stone-200 active:bg-stone-300 disabled:bg-transparent disabled:opacity-50"
           onClick={() => {
             setCalculating(true);
-            void patchPalette(imageUrl).finally(() => setCalculating(false));
+            void handleRefresh(imageUrl).finally(() => setCalculating(false));
           }}
         >
           🔄
