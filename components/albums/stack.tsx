@@ -102,7 +102,7 @@ function AlbumAccordion({
           }
         }}
       >
-        <Gradieted className="w-fit" palette={album.palette}>
+        <Gradieted className="w-fit" palette={album.palette} animate={open}>
           <div className="text-lg font-bold">{album.title}</div>
           <div className="text-sm font-medium">{album.artist}</div>
         </Gradieted>

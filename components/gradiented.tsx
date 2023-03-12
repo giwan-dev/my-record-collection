@@ -3,10 +3,12 @@ import type { PropsWithChildren } from "react";
 export function Gradieted({
   className,
   palette,
+  animate,
   children,
 }: PropsWithChildren<{
   className?: string;
   palette: string[];
+  animate: boolean;
 }>) {
   const getPosition = (index: number) => {
     const yPosition = ["80%", "20%"][index % 2];
@@ -27,7 +29,11 @@ export function Gradieted({
 
   return (
     <div
-      className={[className, "hover:animate-flow bg-clip-text text-transparent"]
+      className={[
+        className,
+        animate && "animate-flow",
+        "bg-clip-text text-transparent",
+      ]
         .filter((x) => !!x)
         .join(" ")}
       style={{
