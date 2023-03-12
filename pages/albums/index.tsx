@@ -65,6 +65,17 @@ export default function NewAlbumPage() {
             },
           );
         }}
+        onChange={(albumId, values) =>
+          setAlbums((albums) =>
+            albums.map((album) => {
+              if (album.id !== albumId) {
+                return album;
+              }
+
+              return { ...album, ...values };
+            }),
+          )
+        }
       />
     </Main>
   );

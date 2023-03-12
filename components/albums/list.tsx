@@ -1,17 +1,27 @@
 import type { Album } from "@prisma/client";
 import Link from "next/link";
 
+import { AlbumPalette } from "../album-palette";
+
 export function AlbumList({
   albums,
   onEdit,
   onDelete,
+  onChange,
 }: {
   albums: Pick<
     Album,
-    "id" | "physicalForm" | "title" | "artist" | "autographed"
+    | "id"
+    | "physicalForm"
+    | "title"
+    | "artist"
+    | "imageUrl"
+    | "palette"
+    | "autographed"
   >[];
   onEdit?: (albumId: string, patch: Pick<Album, "autographed">) => void;
   onDelete?: (albumId: string) => void;
+  onChange: (albumId: string, album: Partial<Album>) => void;
 }) {
   return (
     <ul className="mt-5 px-4 flex flex-col gap-y-1">
@@ -37,6 +47,13 @@ export function AlbumList({
           >
             {album.artist}
           </Link>
+
+          <AlbumPalette
+            albumId={album.id}
+            imageUrl={album.imageUrl}
+            palette={album.palette}
+            onChange={(newValues) => onChange(album.id, newValues)}
+          />
 
           {onEdit && (
             <input
