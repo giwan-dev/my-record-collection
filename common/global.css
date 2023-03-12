@@ -7,7 +7,12 @@
     @apply bg-stone-50;
   }
 
-  details > summary::-webkit-details-marker {
+  summary {
+    @apply block;
+  }
+
+  details > summary::-webkit-details-marker,
+  details > summary::marker {
     @apply hidden;
   }
 }
