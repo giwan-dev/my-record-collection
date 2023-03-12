@@ -45,8 +45,10 @@ function AlbumAccordion({
   >;
   initialOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(initialOpen);
-  const detailsRef = useRef<HTMLDetailsElement>(null);
+  const [open, setOpen] = useState(!!initialOpen);
+  const [defferedOpen, setDefferedOpen] = useState(open);
+  const detailsRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<NodeJS.Timeout>();
   const imageSize = 320;
 
   useEffect(() => {
@@ -57,7 +59,15 @@ function AlbumAccordion({
         }
 
         if (!detailsRef.current?.contains(e.target as Node)) {
-          setOpen(false);
+          if (timerRef.current) {
+            clearTimeout(timerRef.current);
+          }
+
+          setDefferedOpen(false);
+
+          timerRef.current = setTimeout(() => {
+            setOpen(false);
+          }, 150);
         }
       };
 
@@ -69,34 +79,59 @@ function AlbumAccordion({
   }, [open]);
 
   return (
-    <details
-      className="rounded border p-2 overflow-hidden"
-      open={open}
-      onToggle={(e) => {
-        setOpen(e.currentTarget.open);
-      }}
-      ref={detailsRef}
-    >
-      <summary className="cursor-pointer block">
+    <div className="rounded border p-1" ref={detailsRef}>
+      <button
+        className="w-full rounded-lg px-2 py-1 text-left hover:bg-stone-100 active:bg-stone-200"
+        onClick={() => {
+          if (timerRef.current) {
+            clearTimeout(timerRef.current);
+          }
+
+          if (open) {
+            setDefferedOpen(false);
+
+            timerRef.current = setTimeout(() => {
+              setOpen(false);
+            }, 150);
+          } else {
+            setOpen(true);
+
+            timerRef.current = setTimeout(() => {
+              setDefferedOpen(true);
+            }, 150);
+          }
+        }}
+      >
         <Gradieted className="w-fit" palette={album.palette}>
           <div className="text-lg font-bold">{album.title}</div>
           <div className="text-sm font-medium">{album.artist}</div>
         </Gradieted>
-      </summary>
+      </button>
 
-      <div className="mt-3 w-full flex justify-center">
-        {album.imageUrl ? (
-          <Image
-            className="w-full aspect-square object-contain"
-            src={album.imageUrl}
-            width={imageSize}
-            height={imageSize}
-            alt={`${album.title} 썸네일`}
-          />
-        ) : (
-          <div className="w-80 aspect-square bg-gradient-to-tr from-stone-300 to-stone-100" />
-        )}
-      </div>
-    </details>
+      {open && (
+        <div className="mt-3 w-full overflow-hidden">
+          <div
+            className={[
+              "px-2 flex justify-center transition-all transform-gpu",
+              defferedOpen ? "opacity-100" : "opacity-0 -translate-y-full",
+            ]
+              .filter((x) => !!x)
+              .join(" ")}
+          >
+            {album.imageUrl ? (
+              <Image
+                className="w-full aspect-square object-contain"
+                src={album.imageUrl}
+                width={imageSize}
+                height={imageSize}
+                alt={`${album.title} 썸네일`}
+              />
+            ) : (
+              <div className="w-80 aspect-square bg-gradient-to-tr from-stone-300 to-stone-100" />
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
