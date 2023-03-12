@@ -1,3 +1,5 @@
+import { kmeans } from "ml-kmeans";
+
 import { rgbToHex } from "./color";
 
 export async function createPalette(imageUrl: string): Promise<string[]> {
@@ -29,10 +31,23 @@ export async function createPalette(imageUrl: string): Promise<string[]> {
   ).data;
 
   const rgbs = extractRgbs(uint8ClampedArray);
-  const quantizedColors = quantization(rgbs, 0);
+  const quantized = quantization(rgbs, 0);
+  const centroidsWithInformation = kmeans(
+    rgbs.map(({ r, g, b }) => [r, g, b]),
+    4,
+    {
+      initialization: quantized.map(({ r, g, b }) => [r, g, b]),
+    },
+  ).computeInformation(rgbs.map(({ r, g, b }) => [r, g, b]));
 
-  const hexes = quantizedColors.map(rgbToHex);
-  return hexes;
+  return centroidsWithInformation
+    .sort((centroidA, centroidB) => centroidB.size - centroidA.size)
+    .map(({ centroid: [r, g, b] }) => ({
+      r: Math.round(r),
+      g: Math.round(g),
+      b: Math.round(b),
+    }))
+    .map(rgbToHex);
 }
 
 function extractRgbs(array: Uint8ClampedArray) {
