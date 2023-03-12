@@ -47,7 +47,7 @@ export function NewAlbumForm({
   ) => {
     const imageUrl = reference?.images[0].url ?? null;
 
-    const palette = imageUrl ? await createPalette(imageUrl) : [];
+    const palette = imageUrl ? await createPalette(imageUrl, "new-album") : [];
     const paletteTheme = palette.length ? getTheme(palette) : "light";
 
     onSubmit({

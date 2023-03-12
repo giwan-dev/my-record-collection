@@ -19,7 +19,7 @@ export function AlbumPalette({
 
   const patchPalette = async (imageUrl: string) => {
     try {
-      const palette = await createPalette(imageUrl);
+      const palette = await createPalette(imageUrl, albumId);
       const paletteTheme = getTheme(palette);
       const response = await fetch(`/api/albums/${albumId}`, {
         method: "PATCH",
