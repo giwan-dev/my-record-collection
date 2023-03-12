@@ -6,7 +6,7 @@ export function Main({
 }: PropsWithChildren<{ className?: string }>) {
   return (
     <main
-      className={[className, "mx-auto max-w-3xl py-10 bg-white shadow-sm"]
+      className={[className, "mx-auto max-w-3xl bg-white shadow-sm"]
         .filter((x) => !!x)
         .join(" ")}
     >
