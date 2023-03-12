@@ -7,7 +7,17 @@ module.exports = {
     "./components/**/*.{jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        flow: {
+          "0%": { backgroundPositionY: "0" },
+          "100%": { backgroundPositionY: "100%" },
+        },
+      },
+      animation: {
+        flow: "flow 2s ease-in infinite alternate",
+      },
+    },
   },
   plugins: [],
 };
