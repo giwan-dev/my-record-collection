@@ -82,7 +82,7 @@ function AlbumAccordion({
   }, [defferedOpen, open]);
 
   return (
-    <div className="rounded border p-1" ref={detailsRef}>
+    <div className="rounded-xl border p-1" ref={detailsRef}>
       <button
         className="w-full rounded-lg px-2 py-1 text-left hover:bg-stone-100 active:bg-stone-200"
         onClick={() => {
