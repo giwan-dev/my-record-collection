@@ -127,7 +127,7 @@ function AlbumAccordion({
                 alt={`${album.title} 썸네일`}
               />
             ) : (
-              <div className="w-80 aspect-square bg-gradient-to-tr from-stone-300 to-stone-100" />
+              <div className="w-full aspect-square bg-gradient-to-tr from-stone-300 to-stone-100" />
             )}
           </div>
         </div>
