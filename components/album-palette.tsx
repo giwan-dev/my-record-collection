@@ -76,7 +76,7 @@ export function AlbumPalette({
           <>
             <div className="w-8 h-8 rounded-xl bg-stone-300 shadow-inner animate-pulse" />
             <div
-              className="w-8 h-8 rounded-xl bg-stone-300 shadow-inneranimate-pulse"
+              className="w-8 h-8 rounded-xl bg-stone-300 shadow-inner animate-pulse"
               style={{ animationDelay: "150ms" }}
             />
             <div
