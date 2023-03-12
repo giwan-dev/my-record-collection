@@ -120,7 +120,7 @@ function AlbumAccordion({
       </button>
 
       {open && (
-        <div className="mt-3 w-full overflow-hidden">
+        <div className="mt-3 w-full pb-2 overflow-hidden">
           <div
             className={[
               "px-2 flex justify-center transition-all transform-gpu",
