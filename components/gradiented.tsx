@@ -27,7 +27,7 @@ export function Gradieted({
 
   return (
     <div
-      className={[className, "animate-flow bg-clip-text text-transparent"]
+      className={[className, "hover:animate-flow bg-clip-text text-transparent"]
         .filter((x) => !!x)
         .join(" ")}
       style={{
