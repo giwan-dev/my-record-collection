@@ -1,3 +1,4 @@
+import { Disclosure, Transition } from "@headlessui/react";
 import type { Album } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -82,8 +83,8 @@ function AlbumAccordion({
   }, [defferedOpen, open]);
 
   return (
-    <div className="rounded-xl border p-1" ref={detailsRef}>
-      <button
+    <Disclosure as="div" className="rounded-xl border p-1" ref={detailsRef}>
+      <Disclosure.Button
         className="w-full rounded-lg px-2 py-1 text-left hover:bg-stone-100 active:bg-stone-200"
         onClick={() => {
           if (open) {
@@ -99,17 +100,19 @@ function AlbumAccordion({
           <div className="text-lg font-bold">{album.title}</div>
           <div className="text-sm font-medium">{album.artist}</div>
         </Gradieted>
-      </button>
+      </Disclosure.Button>
 
       {open && (
-        <div className="mt-3 w-full pb-2 overflow-hidden">
-          <div
-            className={[
-              "px-2 flex justify-center transition-all transform-gpu",
-              defferedOpen ? "opacity-100" : "opacity-0 -translate-y-full",
-            ]
-              .filter((x) => !!x)
-              .join(" ")}
+        <Disclosure.Panel static className="w-full overflow-hidden">
+          <Transition
+            className="p-2"
+            show={defferedOpen}
+            enter="transition-[opacity,transform]"
+            enterFrom="opacity-0 -translate-y-full"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition-[opacity,transform]"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 -translate-y-full"
           >
             {album.imageUrl ? (
               <Image
@@ -122,10 +125,10 @@ function AlbumAccordion({
             ) : (
               <div className="w-full aspect-square bg-gradient-to-tr from-stone-300 to-stone-100" />
             )}
-          </div>
-        </div>
+          </Transition>
+        </Disclosure.Panel>
       )}
-    </div>
+    </Disclosure>
   );
 }
 
