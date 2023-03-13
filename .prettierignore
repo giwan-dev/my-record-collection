@@ -8,7 +8,6 @@ package-lock.json
 /coverage
 
 # next.js
-/.next/
 /out/
 
 # production
@@ -24,15 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# local env files
-.env*.local
-
-# vercel
-.vercel
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-.vscode
-.husky
