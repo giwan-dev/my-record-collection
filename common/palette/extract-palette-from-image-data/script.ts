@@ -2,15 +2,16 @@ import { kmeans } from "ml-kmeans";
 
 import { rgbToHex } from "../color";
 
-addEventListener(
-  "message",
-  (event: MessageEvent<{ id: string; imageData: ImageData }>) => {
-    postMessage({
-      id: event.data.id,
-      palette: extractPaletteFromImageData(event.data.imageData),
-    });
-  },
-);
+import type { InputMessage, OutputMessage } from "./message";
+
+addEventListener("message", (event: MessageEvent<InputMessage>) => {
+  const message: OutputMessage = {
+    id: event.data.id,
+    palette: extractPaletteFromImageData(event.data.imageData),
+  };
+
+  postMessage(message);
+});
 
 function extractPaletteFromImageData({
   data: uint8ClampedArray,
