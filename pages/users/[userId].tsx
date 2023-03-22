@@ -1,4 +1,8 @@
-import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import type {
+  GetStaticPathsResult,
+  GetStaticPropsContext,
+  GetStaticPropsResult,
+} from "next";
 
 import { AlbumStack } from "@/components/albums";
 import { Main } from "@/components/main";
@@ -19,10 +23,23 @@ export default function UserPage({ albums }: Props) {
   );
 }
 
-export async function getServerSideProps({
-  query,
-}: GetServerSidePropsContext): Promise<GetServerSidePropsResult<Props>> {
-  const { userId } = query;
+interface Params {
+  [key: string]: string | string[] | undefined;
+  userId: string;
+}
+
+export async function getStaticPaths(): Promise<GetStaticPathsResult<Params>> {
+  const users = await prismaClient.user.findMany();
+  return {
+    paths: users.map((user) => ({ params: { userId: user.id } })),
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({
+  params,
+}: GetStaticPropsContext<Params>): Promise<GetStaticPropsResult<Props>> {
+  const userId = params?.userId;
 
   if (userId === undefined || Array.isArray(userId)) {
     throw new Error("Invalid user ID");
