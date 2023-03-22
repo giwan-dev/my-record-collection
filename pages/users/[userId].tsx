@@ -51,7 +51,7 @@ export async function getStaticProps({
     return { notFound: true };
   }
 
-  const albums = await getAlbums({ userId });
+  const albums = await getAlbums({ userId, order: "createdDesc" });
 
   return { props: { albums } };
 }
