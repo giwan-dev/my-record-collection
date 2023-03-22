@@ -28,6 +28,7 @@ export function AlbumPalette({
 
       return { palette, paletteTheme };
     } catch (error) {
+      console.error(error);
       return null;
     }
   };
@@ -133,11 +134,7 @@ export function AlbumPalette({
         )}
       </div>
 
-      {error && (
-        <div className="text-xs text-red-500">
-          팔레트 업데이트에 실패했습니다. 다시 한 번 시도해 주세요.
-        </div>
-      )}
+      {error && <div className="text-xs text-red-500">{error}</div>}
     </div>
   );
 }
